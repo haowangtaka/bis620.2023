@@ -1,6 +1,6 @@
 Package: bis620.2023
 Type: Package
-Title: Functions and Data for BIS620 (2023)
+Title: Functions and Data for the BIS620 (2023)
 Version: 0.1.0
 Author: Michael J. Kane
 Maintainer: The package maintainer <michael.kane@yale.ediu>
