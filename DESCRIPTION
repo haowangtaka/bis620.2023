@@ -19,7 +19,8 @@ Imports:
   gridExtra,
   maps,
   stringr,
-  utils
+  utils,
+  rlang
 Suggests: 
     knitr,
     rmarkdown,

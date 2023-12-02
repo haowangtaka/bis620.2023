@@ -32,11 +32,23 @@ library(utils)
 data("studies")
 data("countries")
 data("documents")
+data("designs")
 
 plot_countries_map(studies)
 ```
 
 ```{r}
 plot_document_histogram_pie(studies)
+```
+
+```{r}
+x_axis <- get_distinct(studies, "phase")
+plot_histogram_uniform_x_axis(studies, "phase", x_axis, "Phase")
+```
+
+```{r}
+query_tbl <- studies |> left_join(designs, by = "nct_id")
+x_axis <- get_distinct(designs, "model_flg")
+plot_histogram_uniform_x_axis(query_tbl, "model_flg", x_axis, "Model")
 ```
 
