@@ -17,7 +17,9 @@ Imports:
   purrr,
   tidyr,
   gridExtra,
-  maps
+  maps,
+  stringr,
+  utils
 Suggests: 
     knitr,
     rmarkdown,
