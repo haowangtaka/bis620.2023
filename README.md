@@ -70,11 +70,13 @@ library(maps)
 #> The following object is masked from 'package:purrr':
 #> 
 #>     map
+library(utils)
 ```
 
 ``` r
 data("studies")
 data("countries")
+data("documents")
 
 plot_countries_map(studies)
 ```
@@ -85,3 +87,9 @@ plot_countries_map(studies)
     #>   z     cells    name           grob
     #> 1 1 (1-1,1-1) arrange gtable[layout]
     #> 2 2 (1-1,2-2) arrange gtable[layout]
+
+``` r
+plot_document_histogram_pie(studies)
+```
+
+<img src="man/figures/README-unnamed-chunk-4-1.png" width="100%" />

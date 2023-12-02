@@ -53,12 +53,18 @@ library(gridExtra)
 library(knitr)
 library(rmarkdown)
 library(maps)
+library(utils)
 ```
 
 ```{r}
 data("studies")
 data("countries")
+data("documents")
 
 plot_countries_map(studies)
+```
+
+```{r}
+plot_document_histogram_pie(studies)
 ```
 
