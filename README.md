@@ -34,3 +34,54 @@ accel |>
 ```
 
 <img src="man/figures/README-example-1.png" width="100%" />
+
+``` r
+library(lubridate)
+#> 
+#> Attaching package: 'lubridate'
+#> The following objects are masked from 'package:base':
+#> 
+#>     date, intersect, setdiff, union
+library(dplyr)
+#> 
+#> Attaching package: 'dplyr'
+#> The following objects are masked from 'package:stats':
+#> 
+#>     filter, lag
+#> The following objects are masked from 'package:base':
+#> 
+#>     intersect, setdiff, setequal, union
+library(ggplot2)
+library(purrr)
+library(tidyr)
+library(gridExtra)
+#> Warning: package 'gridExtra' was built under R version 4.3.2
+#> 
+#> Attaching package: 'gridExtra'
+#> The following object is masked from 'package:dplyr':
+#> 
+#>     combine
+library(knitr)
+library(rmarkdown)
+library(maps)
+#> Warning: package 'maps' was built under R version 4.3.2
+#> 
+#> Attaching package: 'maps'
+#> The following object is masked from 'package:purrr':
+#> 
+#>     map
+```
+
+``` r
+data("studies")
+data("countries")
+
+plot_countries_map(studies)
+```
+
+<img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" />
+
+    #> TableGrob (1 x 2) "arrange": 2 grobs
+    #>   z     cells    name           grob
+    #> 1 1 (1-1,1-1) arrange gtable[layout]
+    #> 2 2 (1-1,2-2) arrange gtable[layout]

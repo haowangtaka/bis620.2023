@@ -42,3 +42,23 @@ accel |>
   head(100) |> 
   plot_accel()
 ```
+
+```{r}
+library(lubridate)
+library(dplyr)
+library(ggplot2)
+library(purrr)
+library(tidyr)
+library(gridExtra)
+library(knitr)
+library(rmarkdown)
+library(maps)
+```
+
+```{r}
+data("studies")
+data("countries")
+
+plot_countries_map(studies)
+```
+
