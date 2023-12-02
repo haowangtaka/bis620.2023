@@ -15,7 +15,8 @@ Imports:
   dplyr,
   ggplot2,
   purrr,
-  tidyr
+  tidyr,
+  gridExtra
 Suggests: 
     knitr,
     rmarkdown,
