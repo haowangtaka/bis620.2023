@@ -1,3 +1,8 @@
 test_that("plot_countries_map() works", {
-  expect_equal(2 * 2, 4)
+  library(ggplot2)
+  data("studies")
+  data("countries")
+  vdiffr::expect_doppelganger(
+    "plot-map-1", plot_countries_map(studies)
+  )
 })

@@ -43,7 +43,7 @@ plot_countries_map <- function(x) {
 
   # Create the map plot with a continuous scale that includes zero
   map_plot <- ggplot(data = map_data, mapping = aes(x = long, y = lat, group = group, fill = n)) +
-    geom_polygon(color = "white", size = 0.1) +
+    geom_polygon(color = "white", linewidth = 0.1) +
     scale_fill_viridis_c(
       option = "C",
       direction = -1,
