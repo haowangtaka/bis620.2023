@@ -7,6 +7,9 @@
     <loc>/articles/index.html</loc>
   </url>
   <url>
+    <loc>/articles/shiny-app-plots-demo.html</loc>
+  </url>
+  <url>
     <loc>/articles/spectral-signatures.html</loc>
   </url>
   <url>
@@ -22,6 +25,9 @@
     <loc>/reference/accel.html</loc>
   </url>
   <url>
+    <loc>/reference/countries.html</loc>
+  </url>
+  <url>
     <loc>/reference/hello.html</loc>
   </url>
   <url>
@@ -31,6 +37,12 @@
     <loc>/reference/plot_accel.html</loc>
   </url>
   <url>
+    <loc>/reference/plot_countries_map.html</loc>
+  </url>
+  <url>
     <loc>/reference/spectral_signature.html</loc>
+  </url>
+  <url>
+    <loc>/reference/studies.html</loc>
   </url>
 </urlset>
