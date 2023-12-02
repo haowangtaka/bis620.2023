@@ -27,8 +27,24 @@
 #' A data frame with 654,096 rows and 4 columns. Please go to the [clinical trials download site](https://aact.ctti-clinicaltrials.org/pipe_files) to get access to the information of this dataset.
 #' \describe{
 #'   \item{id}{the unique number for each study}
-#'   \item{nct_id}{nct_id of the study}
+#'   \item{nct_id}{nct id of the study}
 #'   \item{name}{country name}
 #'   \item{removed}{whether the study is removed}
 #' }
 "countries"
+
+#' NCT documents
+#'
+#' NCT documents data for BIS620
+#'
+#' @format ## `documents`
+#' A data frame with 10,449 rows and 6 columns. Please go to the [clinical trials download site](https://aact.ctti-clinicaltrials.org/pipe_files) to get access to the information of this dataset.
+#' \describe{
+#'   \item{id}{the unique number for each study}
+#'   \item{nct_id}{nct id of the study}
+#'   \item{document_id}{document id of the study}
+#'   \item{document_type}{document type of the study}
+#'   \item{url}{url of the study}
+#'   \item{comment}{comment of the study}
+#' }
+"documents"
