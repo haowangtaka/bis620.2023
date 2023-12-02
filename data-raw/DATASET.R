@@ -2,3 +2,9 @@
 
 accel = readRDS("accel.rds")
 usethis::use_data(accel, overwrite = TRUE)
+
+studies = readRDS("studies.rds")
+usethis::use_data(studies, overwrite = TRUE)
+
+countries = readRDS("countries.rds")
+usethis::use_data(countries, overwrite = TRUE)
