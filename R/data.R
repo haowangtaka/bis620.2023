@@ -11,12 +11,12 @@
 "accel"
 
 
-#' NCT studies
+#' A subset of NCT studies
 #'
-#' NCT studies data for BIS620
+#' A subset of NCT studies data for BIS620
 #'
 #' @format ## `studies`
-#' A data frame with 471,252 rows and 70 columns. Please go to the [clinical trials download site](https://aact.ctti-clinicaltrials.org/pipe_files) to get access to the information of this dataset.
+#' A data frame with 10000 rows and 70 columns. Please go to the [clinical trials download site](https://aact.ctti-clinicaltrials.org/pipe_files) to get access to the information of this dataset.
 "studies"
 
 #' NCT countries

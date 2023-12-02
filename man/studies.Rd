@@ -3,17 +3,17 @@
 \docType{data}
 \name{studies}
 \alias{studies}
-\title{NCT studies}
+\title{A subset of NCT studies}
 \format{
 \subsection{\code{studies}}{
 
-A data frame with 471,252 rows and 70 columns. Please go to the \href{https://aact.ctti-clinicaltrials.org/pipe_files}{clinical trials download site} to get access to the information of this dataset.
+A data frame with 10000 rows and 70 columns. Please go to the \href{https://aact.ctti-clinicaltrials.org/pipe_files}{clinical trials download site} to get access to the information of this dataset.
 }
 }
 \usage{
 studies
 }
 \description{
-NCT studies data for BIS620
+A subset of NCT studies data for BIS620
 }
 \keyword{datasets}
