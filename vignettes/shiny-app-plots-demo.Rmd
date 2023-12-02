@@ -24,6 +24,7 @@ library(tidyr)
 library(gridExtra)
 library(knitr)
 library(rmarkdown)
+library(maps)
 ```
 
 ```{r}

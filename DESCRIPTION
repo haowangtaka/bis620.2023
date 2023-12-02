@@ -16,7 +16,8 @@ Imports:
   ggplot2,
   purrr,
   tidyr,
-  gridExtra
+  gridExtra,
+  maps
 Suggests: 
     knitr,
     rmarkdown,
