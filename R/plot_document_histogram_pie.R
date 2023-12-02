@@ -1,6 +1,6 @@
 #' Plot Histogram and Pie Chart of Document Types
 #'
-#' This function takes a dataset and produces two visual representations of document types: a histogram and a pie chart. It displays the top 10 document types based on their frequency in the dataset.
+#' This function takes a dataset and produces two visual representations of document types: a histogram and a pie chart. It displays the top 9 document types based on their frequency in the dataset.
 #'
 #' @param x A data frame that must contain a column `nct_id` for matching with a predefined `documents` dataset, which is assumed to be in the user's environment.
 #'
@@ -10,8 +10,8 @@
 #' The function first checks if the input data frame is missing or empty and provides a warning message if so. It then joins the input data frame with the `documents` dataset on `nct_id` and calculates the count of each document type.
 #'
 #' If no document types are found, a warning is issued and a plot with a corresponding message is returned. Otherwise, the function creates two plots:
-#' 1. A histogram showing the count of the top 10 document types.
-#' 2. A pie chart showing the proportions of these top 10 document types.
+#' 1. A histogram showing the count of the top 9 document types.
+#' 2. A pie chart showing the proportions of these top 9 document types.
 #'
 #' Long document type names are wrapped for better display in the histogram. The final output is an arrangement of both the histogram and the pie chart in a single view.
 #'
@@ -42,7 +42,7 @@ plot_document_histogram_pie <- function(x) {
              annotate("text", x = 0.5, y = 0.5, label = "No document types found", size = 6, hjust = 0.5, vjust = 0.5))
   }
 
-  top_n <- min(nrow(d), 10)
+  top_n <- min(nrow(d), 9)
   d <- head(d, top_n)
 
   # Wrap long names for the histogram
@@ -54,7 +54,7 @@ plot_document_histogram_pie <- function(x) {
     theme_minimal() +
     xlab("Document Type") +
     ylab("Count") +
-    ggtitle("Top 10 Document Types") +  # Add title here
+    ggtitle("Top 9 Document Types") +  # Add title here
     theme(axis.text.x = element_text(angle = 45, hjust = 1),
           plot.title = element_text(hjust = 0.5)) # Center the title
 
@@ -65,7 +65,7 @@ plot_document_histogram_pie <- function(x) {
     theme_void() +
     theme(legend.position = "bottom") +
     scale_fill_brewer(palette = "Pastel1", direction = -1) +
-    ggtitle("Top 10 Document Type Proportions") +  # Add title here
+    ggtitle("Top 9 Document Type Proportions") +  # Add title here
     labs(fill = "Document Type", y = "Count", x = "") +
     theme(legend.text = element_text(size = 8),
           plot.title = element_text(hjust = 0.5)) # Center the title

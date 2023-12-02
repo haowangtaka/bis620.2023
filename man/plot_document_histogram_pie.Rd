@@ -13,15 +13,15 @@ plot_document_histogram_pie(x)
 A combined plot of a histogram and a pie chart. If the input data frame is missing, empty, or lacks document types, the function returns a plot with a text annotation indicating the absence of data.
 }
 \description{
-This function takes a dataset and produces two visual representations of document types: a histogram and a pie chart. It displays the top 10 document types based on their frequency in the dataset.
+This function takes a dataset and produces two visual representations of document types: a histogram and a pie chart. It displays the top 9 document types based on their frequency in the dataset.
 }
 \details{
 The function first checks if the input data frame is missing or empty and provides a warning message if so. It then joins the input data frame with the \code{documents} dataset on \code{nct_id} and calculates the count of each document type.
 
 If no document types are found, a warning is issued and a plot with a corresponding message is returned. Otherwise, the function creates two plots:
 \enumerate{
-\item A histogram showing the count of the top 10 document types.
-\item A pie chart showing the proportions of these top 10 document types.
+\item A histogram showing the count of the top 9 document types.
+\item A pie chart showing the proportions of these top 9 document types.
 }
 
 Long document type names are wrapped for better display in the histogram. The final output is an arrangement of both the histogram and the pie chart in a single view.

@@ -1,3 +1,8 @@
 test_that("plot_document_histogram_pie works", {
-  expect_equal(2 * 2, 4)
+  library(ggplot2)
+  data("studies")
+  data("documents")
+  vdiffr::expect_doppelganger(
+    "plot-pie-1", plot_document_histogram_pie(studies)
+  )
 })
