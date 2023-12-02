@@ -13,6 +13,3 @@ hello(who = "world")
 Print the hello world function to the console with
 parameter say who to say hello to.
 }
-\examples{
-hello("people in group 5 of BIS620 class")
-}
