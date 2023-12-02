@@ -18,17 +18,12 @@ knitr::opts_chunk$set(
 library(bis620.2023)
 library(lubridate)
 library(dplyr)
-library(duckdb)
-library(dplyr)
-library(DBI)
-library(DT)
 library(ggplot2)
-library(tidyr)
 library(purrr)
-library(maps)
-library(mapdata)
+library(tidyr)
 library(gridExtra)
-library(RColorBrewer)
+library(knitr)
+library(rmarkdown)
 ```
 
 ```{r}
