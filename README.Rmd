@@ -60,11 +60,16 @@ library(utils)
 data("studies")
 data("countries")
 data("documents")
+data("interventions")
 
 plot_countries_map(studies)
 ```
 
 ```{r}
 plot_document_histogram_pie(studies)
+```
+
+```{r}
+plot_interventions_histogram(studies)
 ```
 
