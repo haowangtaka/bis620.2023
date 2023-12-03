@@ -8,7 +8,7 @@
 #' @param na_fill The value to fill NA value. (default "NA")
 #' @return A tibble data after adding the missing columns.
 #'
-#' @importFrom dplyr mutate group_by select summarize context
+#' @importFrom dplyr mutate group_by select summarize n
 #' @importFrom tibble add_row 
 #' @export
 add_miss_summary_stat <- function(x, col, x_axis, na_fill="NA") {
