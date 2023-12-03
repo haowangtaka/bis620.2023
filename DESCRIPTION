@@ -16,10 +16,12 @@ Imports:
   ggplot2,
   purrr,
   tidyr,
+  tibble,
   gridExtra,
   maps,
   stringr,
-  utils
+  utils,
+  rlang
 Suggests: 
     knitr,
     rmarkdown,

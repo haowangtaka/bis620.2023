@@ -48,3 +48,11 @@
 #'   \item{comment}{comment of the study}
 #' }
 "documents"
+
+#' NCT designs
+#'
+#' NCT designs data for BIS620
+#'
+#' @format ## `designs`
+#' A data frame with 462,688 rows and 14 columns. Please go to the [clinical trials download site](https://aact.ctti-clinicaltrials.org/pipe_files) to get access to the information of this dataset.
+"designs"
