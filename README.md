@@ -55,7 +55,6 @@ library(ggplot2)
 library(purrr)
 library(tidyr)
 library(gridExtra)
-#> Warning: package 'gridExtra' was built under R version 4.3.2
 #> 
 #> Attaching package: 'gridExtra'
 #> The following object is masked from 'package:dplyr':
@@ -64,7 +63,6 @@ library(gridExtra)
 library(knitr)
 library(rmarkdown)
 library(maps)
-#> Warning: package 'maps' was built under R version 4.3.2
 #> 
 #> Attaching package: 'maps'
 #> The following object is masked from 'package:purrr':
@@ -77,6 +75,7 @@ library(utils)
 data("studies")
 data("countries")
 data("documents")
+data("designs")
 
 plot_countries_map(studies)
 ```
@@ -93,3 +92,18 @@ plot_document_histogram_pie(studies)
 ```
 
 <img src="man/figures/README-unnamed-chunk-4-1.png" width="100%" />
+
+``` r
+x_axis <- get_distinct(studies, "phase")
+plot_histogram_uniform_x_axis(studies, "phase", x_axis, "Phase")
+```
+
+<img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" />
+
+``` r
+query_tbl <- studies |> left_join(designs, by = "nct_id")
+x_axis <- get_distinct(designs, "model_flg")
+plot_histogram_uniform_x_axis(query_tbl, "model_flg", x_axis, "Model")
+```
+
+<img src="man/figures/README-unnamed-chunk-6-1.png" width="100%" />
