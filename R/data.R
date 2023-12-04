@@ -64,3 +64,20 @@
 #' @format ## `designs`
 #' A data frame with 462,688 rows and 14 columns. Please go to the [clinical trials download site](https://aact.ctti-clinicaltrials.org/pipe_files) to get access to the information of this dataset.
 "designs"
+
+#' NCT sponsors
+#'
+#' NCT sponsors data for BIS620
+#'
+#' @format ## `sponsors`
+#' A data frame with 749,487 rows and 5 columns. Please go to the [clinical trials download site](https://aact.ctti-clinicaltrials.org/pipe_files) to get access to the information of this dataset.
+"sponsors"
+
+#' NCT conditions
+#'
+#' NCT conditions data for BIS620
+#'
+#' @format ## `conditions`
+#' A data frame with 808,713 rows and 4 columns. Please go to the [clinical trials download site](https://aact.ctti-clinicaltrials.org/pipe_files) to get access to the information of this dataset.
+"conditions"
+

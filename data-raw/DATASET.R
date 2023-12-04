@@ -21,3 +21,9 @@ designs = designs |>
   mutate(model_flg = if_else(is.na(intervention_model), if_else(is.na(observational_model), "NA", "Observational Model"), "Intervention Model")) # 0 for na, 1 for observational and 2 for intervention
 usethis::use_data(designs, overwrite = TRUE)
 
+sponsors = readRDS("sponsors.rds")
+usethis::use_data(sponsors, overwrite = TRUE)
+
+conditions = readRDS("conditions.rds")
+usethis::use_data(conditions, overwrite = TRUE)
+
