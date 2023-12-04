@@ -10,16 +10,16 @@
 
 <!-- badges: end -->
 
-The goal of bis620.2023 is to …
+The bis620.2023 package, developed by Hao Wang, Yixiao Chen, and Qifan Zhang, offers a robust Shiny application tailored for enhanced interaction with clinical trial data. Utilizing a subset of data from ClinicalTrials.gov for testing purposes, the package enables users to categorize by intervention types and analyze study designs with its specialized tabs. The Global Study Distribution Map and Document Type Visualization Tab provide insights into geographical research trends and document dissemination patterns, respectively. This tool aims to support research analysis and strategic decision-making in clinical studies, with potential applications extending to the optimization of research and development trajectories in healthcare.
 
 ## Installation
 
 You can install the development version of bis620.2023 from
 [GitHub](https://github.com/) with:
 
-``` r
-# install.packages("devtools")
-devtools::install_github("haowangtaka/bis620.2023")
+```r
+# install.packages(“devtools”)
+devtools::install_github(“haowangtaka/bis620.2023”)
 ```
 
 ## Example
@@ -75,6 +75,7 @@ library(utils)
 data("studies")
 data("countries")
 data("documents")
+data("interventions")
 data("designs")
 
 plot_countries_map(studies)
@@ -94,11 +95,17 @@ plot_document_histogram_pie(studies)
 <img src="man/figures/README-unnamed-chunk-4-1.png" width="100%" />
 
 ``` r
+plot_interventions_histogram(studies)
+```
+
+<img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" />
+
+``` r
 x_axis <- get_distinct(studies, "phase")
 plot_histogram_uniform_x_axis(studies, "phase", x_axis, "Phase")
 ```
 
-<img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-6-1.png" width="100%" />
 
 ``` r
 query_tbl <- studies |> left_join(designs, by = "nct_id")
@@ -106,4 +113,5 @@ x_axis <- get_distinct(designs, "model_flg")
 plot_histogram_uniform_x_axis(query_tbl, "model_flg", x_axis, "Model")
 ```
 
-<img src="man/figures/README-unnamed-chunk-6-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-7-1.png" width="100%" />
+
