@@ -34,7 +34,7 @@ devtools::install_github("haowangtaka/bis620.2023")
 
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
+This is a basic example which shows you how to solve a common problem(created in class):
 
 ```{r example}
 library(bis620.2023)
