@@ -25,16 +25,28 @@
     <loc>/reference/accel.html</loc>
   </url>
   <url>
+    <loc>/reference/add_miss_summary_stat.html</loc>
+  </url>
+  <url>
     <loc>/reference/countries.html</loc>
   </url>
   <url>
+    <loc>/reference/designs.html</loc>
+  </url>
+  <url>
     <loc>/reference/documents.html</loc>
+  </url>
+  <url>
+    <loc>/reference/get_distinct.html</loc>
   </url>
   <url>
     <loc>/reference/hello.html</loc>
   </url>
   <url>
     <loc>/reference/index.html</loc>
+  </url>
+  <url>
+    <loc>/reference/interventions.html</loc>
   </url>
   <url>
     <loc>/reference/plot_accel.html</loc>
@@ -44,6 +56,12 @@
   </url>
   <url>
     <loc>/reference/plot_document_histogram_pie.html</loc>
+  </url>
+  <url>
+    <loc>/reference/plot_histogram_uniform_x_axis.html</loc>
+  </url>
+  <url>
+    <loc>/reference/plot_interventions_histogram.html</loc>
   </url>
   <url>
     <loc>/reference/spectral_signature.html</loc>

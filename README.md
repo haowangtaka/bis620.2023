@@ -38,7 +38,7 @@ devtools::install_github("haowangtaka/bis620.2023")
 #> dplyr   (1.1.3  -> 1.1.4  ) [CRAN]
 #> maps    (3.4.1  -> 3.4.1.1) [CRAN]
 #> Installing 6 packages: rlang, vctrs, stringi, cpp11, dplyr, maps
-#> Installing packages into 'C:/Users/Taka/AppData/Local/Temp/Rtmpa6vLD3/temp_libpath3f684a8979fb'
+#> Installing packages into 'C:/Users/Taka/AppData/Local/Temp/Rtmpa6vLD3/temp_libpath3f687f271f74'
 #> (as 'lib' is unspecified)
 #> package 'rlang' successfully unpacked and MD5 sums checked
 #> package 'vctrs' successfully unpacked and MD5 sums checked
@@ -48,9 +48,9 @@ devtools::install_github("haowangtaka/bis620.2023")
 #> package 'maps' successfully unpacked and MD5 sums checked
 #> 
 #> The downloaded binary packages are in
-#>  C:\Users\Taka\AppData\Local\Temp\RtmpmWcAcW\downloaded_packages
+#>  C:\Users\Taka\AppData\Local\Temp\RtmpkdpCMO\downloaded_packages
 #> ── R CMD build ─────────────────────────────────────────────────────────────────
-#>          checking for file 'C:\Users\Taka\AppData\Local\Temp\RtmpmWcAcW\remotes650439f17578\haowangtaka-bis620.2023-cd031e1/DESCRIPTION' ...  ✔  checking for file 'C:\Users\Taka\AppData\Local\Temp\RtmpmWcAcW\remotes650439f17578\haowangtaka-bis620.2023-cd031e1/DESCRIPTION'
+#>       ✔  checking for file 'C:\Users\Taka\AppData\Local\Temp\RtmpkdpCMO\remotes3a006f3a182f\haowangtaka-bis620.2023-961da27/DESCRIPTION'
 #>       ─  preparing 'bis620.2023':
 #>    checking DESCRIPTION meta-information ...     checking DESCRIPTION meta-information ...   ✔  checking DESCRIPTION meta-information
 #>       ─  checking for LF line-endings in source and make files and shell scripts
@@ -58,7 +58,7 @@ devtools::install_github("haowangtaka/bis620.2023")
 #>       ─  building 'bis620.2023_0.1.0.tar.gz'
 #>      
 #> 
-#> Installing package into 'C:/Users/Taka/AppData/Local/Temp/Rtmpa6vLD3/temp_libpath3f684a8979fb'
+#> Installing package into 'C:/Users/Taka/AppData/Local/Temp/Rtmpa6vLD3/temp_libpath3f687f271f74'
 #> (as 'lib' is unspecified)
 ```
 
@@ -114,6 +114,8 @@ library(maps)
 #>     map
 library(utils)
 ```
+
+Here is the preview of our functions:
 
 ``` r
 data("studies")
