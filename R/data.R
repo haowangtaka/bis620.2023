@@ -49,7 +49,6 @@
 #' }
 "documents"
 
-
 #' NCT interventions
 #'
 #' A subset of NCT interventions data for BIS620
@@ -57,3 +56,11 @@
 #' @format ## `interventions`
 #' A data frame with 10000 rows and 2 columns. Please go to the [clinical trials download site](https://aact.ctti-clinicaltrials.org/pipe_files) to get access to the information of this dataset.
 "interventions"
+
+#' NCT designs
+#'
+#' NCT designs data for BIS620
+#'
+#' @format ## `designs`
+#' A data frame with 462,688 rows and 14 columns. Please go to the [clinical trials download site](https://aact.ctti-clinicaltrials.org/pipe_files) to get access to the information of this dataset.
+"designs"

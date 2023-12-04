@@ -17,8 +17,10 @@ The bis620.2023 package, developed by Hao Wang, Yixiao Chen, and Qifan Zhang, of
 You can install the development version of bis620.2023 from
 [GitHub](https://github.com/) with:
 
-{r} \# install.packages(“devtools”)
+```r
+# install.packages(“devtools”)
 devtools::install_github(“haowangtaka/bis620.2023”)
+```
 
 ## Example
 
@@ -74,6 +76,7 @@ data("studies")
 data("countries")
 data("documents")
 data("interventions")
+data("designs")
 
 plot_countries_map(studies)
 ```
@@ -96,3 +99,19 @@ plot_interventions_histogram(studies)
 ```
 
 <img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" />
+
+``` r
+x_axis <- get_distinct(studies, "phase")
+plot_histogram_uniform_x_axis(studies, "phase", x_axis, "Phase")
+```
+
+<img src="man/figures/README-unnamed-chunk-6-1.png" width="100%" />
+
+``` r
+query_tbl <- studies |> left_join(designs, by = "nct_id")
+x_axis <- get_distinct(designs, "model_flg")
+plot_histogram_uniform_x_axis(query_tbl, "model_flg", x_axis, "Model")
+```
+
+<img src="man/figures/README-unnamed-chunk-7-1.png" width="100%" />
+
