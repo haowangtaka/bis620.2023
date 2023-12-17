@@ -81,3 +81,19 @@
 #' A data frame with 808,713 rows and 4 columns. Please go to the [clinical trials download site](https://aact.ctti-clinicaltrials.org/pipe_files) to get access to the information of this dataset.
 "conditions"
 
+#' NCT calculated_values
+#'
+#' NCT calculated_values data for BIS620
+#'
+#' @format ## `calculated_values`
+#' A data frame with 467,212 rows and 19 columns. Please go to the [clinical trials download site](https://aact.ctti-clinicaltrials.org/pipe_files) to get access to the information of this dataset.
+"calculated_values"
+
+#' NCT outcome_analyses
+#'
+#' NCT outcome_analyses data for BIS620
+#'
+#' @format ## `outcome_analyses`
+#' A data frame with 256,592 rows and 22 columns. Please go to the [clinical trials download site](https://aact.ctti-clinicaltrials.org/pipe_files) to get access to the information of this dataset.
+"outcome_analyses"
+

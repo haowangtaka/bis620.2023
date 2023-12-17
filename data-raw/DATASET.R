@@ -27,3 +27,9 @@ usethis::use_data(sponsors, overwrite = TRUE)
 conditions = readRDS("conditions.rds")
 usethis::use_data(conditions, overwrite = TRUE)
 
+outcome_analyses = readRDS("outcome_analyses.rds")
+usethis::use_data(outcome_analyses, overwrite = TRUE)
+
+calculated_values = readRDS("calculated_values.rds")
+usethis::use_data(calculated_values, overwrite = TRUE)
+
