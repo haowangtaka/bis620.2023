@@ -1,0 +1,303 @@
+---
+title: "Is the significance of the outcomes of clinical trials related to where and how they are conducted?"
+output: rmarkdown::html_vignette
+author: Qifan Zhang qz277
+format:
+  html:
+    self-contained: true
+vignette: >
+  %\VignetteIndexEntry{research-significance-analysis}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# Background and Motivation
+
+In this project, we aim to explore the relations between the significance of the outcomes of clinical trials and some factors such as countries that the trials are conducted and the number of facility involved. Although clinical trials are pivotal in shaping medical practices and policies and is a well-organized way to understand a newly-proposed medical methods, conducting complete and comprehensive clinical trials often requires sufficient funds and experimental samples. So, intuitively, we believe that those significant results mostly come from developed hospitals or research centers with more resources. To further investigate this question, we utilize the data from the Aggregate Analysis of ClinicalTrials.gov (AACT) and study how geographical locations and the scale of facilities may affect the outcomes of clinical trials.
+
+We believe that the insights derived from this study could be instrumental for stakeholders in clinical research. Understanding the influence of locations and the collaboration level, which we think are some "surrogate" variables of research resources, enables policy-makers to better allocate relevant funds and resources and thus ensures more reliable and generalizable results. This can lead to more informed regulatory decisions and better health outcomes for patients worldwide.
+
+# Research Question
+
+In this project, we aim to answer the question whether there are significant relations between the significance of the outcomes of clinical trials and factors such as countries that the trials are conducted and the number of facility involved. We choose linear regression model to analyze this question and pick the p-values of each clinical trials as the response variable.
+
+# Data Cleaning and Exploration
+
+In the following analysis, we will use `countries`, `outcome_analyses` and `calculated_values` tables from AACT database. For convenience, we download them and save them as .rda files in our bis620.2023 package.
+
+```{r setup}
+library(bis620.2023)
+library(lubridate)
+library(dplyr)
+library(ggplot2)
+library(purrr)
+library(tidyr)
+library(patchwork)
+```
+
+## Data Inspection
+
+The table `countries` has 654,096 rows and 4 columns. The `name` column indicates the countries where the trials are conducted and the `removed` column indicates whether the countries are from `removed_countries` table. In addition, there are 81 missing values in the `name` column. There are 227 distinct countries in total. Furthermore, the number of cross-countries clinical trials are 39,753.
+
+```{r}
+countries
+```
+
+```{r}
+countries |> is.na() |> colSums()
+```
+
+```{r}
+countries |> distinct(name) |> count()
+```
+
+```{r}
+countries |> group_by(nct_id) |> summarise(n = n()) |> filter(n >= 2) |> count()
+```
+
+The table `outcome_analyses` has 256,592 rows and 22 columns. In our project, we mainly consider the `p_value` column. There are 45,622 missing values in the `name` column.
+
+```{r}
+outcome_analyses
+```
+
+```{r}
+outcome_analyses |> select(p_value) |> is.na() |> colSums()
+```
+
+The table `calculated_values` has 467,212 rows and 19 columns. In our project, we mainly consider the `number_of_facilities`, `actual_duration`, `has_us_facility` columns. There are 50,012, 185,328, and 50012 missing values in the `number_of_facilities`, `actual_duration`, `has_us_facility` columns respectively. In addition, there are 166,148 trials with facilities from USA.
+
+```{r}
+calculated_values
+```
+
+```{r}
+calculated_values |> select(number_of_facilities, actual_duration, has_us_facility) |> is.na() |> colSums()
+```
+
+```{r}
+calculated_values |> filter(has_us_facility == TRUE) |> count()
+```
+
+## Data Cleaning
+
+For `countries` table, we remove those rows with `removed == TRUE` or `name == NA`. Although this may bring some selection bias in our further analysis, it can reduce the variance of our parameter estimation. For `outcome_analyses` table, we remove those rows with `p_value == NA`. For `calculated_values`, we remove those rows with `number_of_facilities == NA`, `actual_duration == NA` or `has_us_facility == NA`. After cleaning, we have 619,635 valid rows for `countries`, 210,970 valid rows for `outcome_analyses` and 258,619 valid rows for `calculated_values`.
+
+Next, we left join `number_of_facilities` and `countries` on `outcome_analyses`. We choose `outcome_analyses` as our target table because `p_value` is our response variable. In addition, we drop those countries with less than 10 clinical trials. After further cleaning the `NA` value, we finalize a dataset with 746,903 rows. Some clinical trials may have many facilities from different countries involved such as the NCT03989232. Thus the dataset has some duplicate `nct_id` at this stage.
+
+We conduct two stage cleaning above because we want to reduce the memory size in table joining process.
+
+```{r}
+countries_processed <- countries |> filter(removed == FALSE & !is.na(name)) |> select(nct_id, name)
+outcome_analyses_processed <- outcome_analyses |> filter(!is.na(p_value)) |> select(nct_id, p_value)
+calculated_values_processed <- calculated_values |> filter(!is.na(number_of_facilities) & !is.na(actual_duration) & !is.na(has_us_facility)) |> select(nct_id, number_of_facilities, actual_duration, has_us_facility)
+```
+
+```{r}
+countries_processed |> count()
+outcome_analyses_processed |> count()
+calculated_values_processed |> count()
+```
+
+```{r}
+d <- outcome_analyses_processed |> left_join(countries_processed, by="nct_id") |> left_join(calculated_values_processed, by="nct_id") |> filter(!is.na(name) & !is.na(number_of_facilities) & !is.na(actual_duration) & !is.na(has_us_facility)) |> filter(p_value >= 0 & p_value <= 1) |> distinct()
+
+valid_countries <- d |> select(nct_id, name) |> distinct() |> group_by(name) |> summarise(n = n()) |> filter(n > 10) |> select(name) |> as.vector() |> unlist()
+d <- d |> filter(name %in% valid_countries)
+d
+```
+
+## Data Visualization and Transformation
+
+### Distribution of p values
+
+First, we explore the distribution of `p_value`. This may indicate further data transformation of `p_value`. Note that the value of the `p_value` is bounded in [0, 1] and is skewed to 0. For simplicity, we take a logit transformation on `p_value`. We can see that after transformation, the shape of the p.d.f. looks more like a normal distribution.
+
+```{r}
+min_p <- d |> select(p_value) |> min()
+max_p <- d |> select(p_value) |> max()
+p1 <- d |> select(nct_id, p_value) |> distinct() |>
+    ggplot(aes(x = p_value)) +
+    geom_histogram(bins = 30) +
+  scale_x_continuous(limits = c(min_p, max_p)) +
+  theme_bw() +
+  ggtitle("Distribution of p values") + 
+  xlab("p value") + 
+  ylab("Count")
+
+d <- d |> mutate(p_value = log((p_value) / (1 - p_value + 0.0001) + 0.0001))
+min_p <- d |> select(p_value) |> min()
+max_p <- d |> select(p_value) |> max()
+p2 <- d |> select(nct_id, p_value) |> distinct() |>
+    ggplot(aes(x = p_value)) +
+    geom_histogram(bins = 30) +
+  scale_x_continuous(limits = c(min_p, max_p)) + 
+  theme_bw() + 
+  ggtitle("Distribution of p values (transformed)") + 
+  xlab("transformed p values") + 
+  ylab("Count")
+
+p1 + p2
+```
+
+Furthermore, we compare the distribution of p values of the trials conducted in the top 3 countries with most number of trials. From the three density plots, we do not see any differences among their distributions of the p values.
+
+```{r}
+d |> select(nct_id, name) |> distinct() |> group_by(name) |> summarise(n = n()) |> arrange(desc(n))
+```
+
+```{r}
+top_three <- c("United States", "Canada", "Germany")
+p <- d |> filter(name %in% top_three) |> select(nct_id, p_value, name) |> distinct() |>
+  ggplot(aes(x = name, y = p_value)) + 
+  geom_violin() + 
+  theme_bw() + 
+  ggtitle("Distribution of p values") + 
+  xlab("Countries") + 
+  ylab("p values")
+p
+```
+
+### Distribution of Number of Facilities
+
+We explore the distribution of `number_of_facilities` in this section. The average value of it is 149.6227. Note that the histogram and box-plot indicate that there may be some outliers in our dataset. For further analysis, we use 3/4-quantile to truncate the `number_of_facilities`. After truncation, the average value of it is 16.94371.
+
+```{r}
+mean(d$number_of_facilities)
+```
+
+```{r}
+min_v <- d |> select(number_of_facilities) |> min()
+max_v <- d |> select(number_of_facilities) |> max()
+p1 <- d |> select(nct_id, number_of_facilities) |> distinct() |>
+    ggplot(aes(x = number_of_facilities)) +
+    geom_histogram(bins = 30) +
+  scale_x_continuous(limits = c(min_v, max_v)) +
+  theme_bw() +
+  ggtitle("Distribution of Number of Facilities") + 
+  xlab("Number of Facilities") + 
+  ylab("Count")
+
+p2 <- d |> select(nct_id, number_of_facilities) |> distinct() |>
+    ggplot(aes(x = number_of_facilities)) + 
+    geom_boxplot() +
+    theme_bw() + 
+    ggtitle("Box-plot of Number of Facilities") + 
+  xlab("Number of Facilities") + 
+  theme(axis.text.y = element_blank(),
+             axis.ticks.y = element_blank())
+p1 + p2  
+```
+
+```{r}
+tmp <- d |> select(nct_id, number_of_facilities) |> distinct()
+quantile_value <- quantile(tmp$number_of_facilities, 0.75)
+d <- d |> filter(number_of_facilities <= quantile_value)
+min_v <- d |> select(number_of_facilities) |> min()
+max_v <- d |> select(number_of_facilities) |> max()
+p1 <- d |> select(nct_id, number_of_facilities) |> distinct() |>
+    ggplot(aes(x = number_of_facilities)) +
+    geom_histogram(bins = 30) +
+  scale_x_continuous(limits = c(min_v, max_v)) +
+  theme_bw() +
+  ggtitle("Distribution of Number of Facilities (Truncated)") + 
+  xlab("Number of Facilities") + 
+  ylab("Count")
+
+p2 <- d |> select(nct_id, number_of_facilities) |> distinct() |>
+    ggplot(aes(x = number_of_facilities)) + 
+    geom_boxplot() +
+    theme_bw() + 
+    ggtitle("Box-plot of Number of Facilities (Truncated)") + 
+  xlab("Number of Facilities") + 
+  theme(axis.text.y = element_blank(),
+             axis.ticks.y = element_blank())
+p1 + p2  
+```
+
+```{r}
+mean(d$number_of_facilities)
+```
+
+
+### Distribution of Actual Duration
+
+Similar to the `number_of_facilities`, we visualize the distribution of `actual_duration`. The average value of it is 28.58358. Note that for `actual_duration`, all values look within a reasonable range.
+
+```{r}
+mean(d$actual_duration)
+```
+
+```{r}
+min_v <- d |> select(actual_duration) |> min()
+max_v <- d |> select(actual_duration) |> max()
+p1 <- d |> select(nct_id, actual_duration) |> distinct() |>
+    ggplot(aes(x = actual_duration)) +
+    geom_histogram(bins = 30) +
+  scale_x_continuous(limits = c(min_v, max_v)) +
+  theme_bw() +
+  ggtitle("Distribution of Actual Duration") + 
+  xlab("Actual Duration") + 
+  ylab("Count")
+
+p2 <- d |> select(nct_id, actual_duration) |> distinct() |>
+    ggplot(aes(x = actual_duration)) +
+    geom_boxplot() +
+    theme_bw() +
+    ggtitle("Box-plot of Actual Duration") +
+  xlab("Actual Duration") +
+  theme(axis.text.y = element_blank(),
+             axis.ticks.y = element_blank())
+p1 + p2
+
+```
+
+# Analysis
+
+## Full model
+
+In this part, we first fit the `p_value` on all our candidate variables and conduct t-test for each variable. First, we generate the corresponding dummy variables and transform our dataset `d` to the one without duplicate `nct_id`.
+
+```{r}
+dummies_vars <- as_tibble(model.matrix(~ name - 1, d))
+d_tmp <- bind_cols(d |> select(nct_id), dummies_vars) |> group_by(nct_id) |> summarise(across(where(is.numeric), sum, na.rm = TRUE))
+d <- d |> select(-name) |> distinct() |> group_by(nct_id) |> summarise(across(where(is.numeric), mean, na.rm = TRUE))
+d <- d |> inner_join(d_tmp, by = "nct_id")
+d
+```
+
+Next, we fit our full model. Given confidence level 95%, only `number_of_facilities`, `actual_duration`, `nameAustria`, `nameBelgium`, `nameChina`, `nameMoldova, Republic of`, `nameUnited Kingdom` and `nameUnited States` pass the t test. For the countries variables, only `nameAustria` has significantly negative coefficient, which indicates a lower p value for their clinical trial outcomes. Before making further conclusions, we fit another two partial models two separate the effect of `number_of_facilities` and `actual_duration`.
+
+```{r}
+model <- lm(p_value ~ ., data = d |> select(-nct_id))
+summary(model)
+```
+
+## Model with Countries Variables Only
+
+In this part, we fit a linear regression model with countries variables only. Given confidence level 95%, only `nameMoldova, Republic of`, `nameUnited Kingdom` and `nameUnited States` pass the t test, and their coefficients are all positive. This indicates that clinical trials with the three countries involved tend to have less significant results.
+
+```{r}
+model <- lm(p_value ~ ., data = d |> select(-c(nct_id, number_of_facilities, actual_duration)))
+summary(model)
+```
+
+## Model with no Countries Variables
+
+In this part, we fit a model with no countries variable. From the summary table, we can see that the result is consistent with our full model. The result indicates that the clinical trials with more facilities involved and with shorter actual duration tend to generate significant outcomes.
+
+```{r}
+model <- lm(p_value ~ ., data = d |> select(p_value, number_of_facilities, actual_duration))
+summary(model)
+```
+
+# Interpretation and Conclusions
+
+In this project, we aim to answer the question whether there are significant relations between the significance of the outcomes of clinical trials and factors such as countries that the trials are conducted and the number of facility involved. We conduct rich exploratory data analysis on our AACT dataset. The distribution of p value of the clinical trials is skewed toward 0, indicating that most clinical trials complete with a significant outcomes.In addition, our analysis on `number_of_facilities` indicates that the clinical trials have about 7 to 8 facilities involved on average. This also show the trend of collaboration in clinical trials. Furthermore, we fit three linear regression models and find that only United Kingdom and United States two countries have significant impact on the p values of clinical trials outcome and the clinical trials with the two countries involved tend to have less significant p values. Since the two countries get involve with a large portion of clinical trials, we interpret this result that it implies the fact that scientific discovery is a difficult process and tend to complete with a non-significant outcome. In addition, our model on `number_of_facilities` indicates that more collaboration can accelerate the process of scientific discovery. Thus there is not much significant relations between the significance of the outcomes of clinical trials and countries that the trials are conducted. But there is relations between the significance of the outcomes and the number of facility involved.
