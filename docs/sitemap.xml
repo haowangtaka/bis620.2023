@@ -4,7 +4,13 @@
     <loc>/404.html</loc>
   </url>
   <url>
+    <loc>/LICENSE.html</loc>
+  </url>
+  <url>
     <loc>/articles/index.html</loc>
+  </url>
+  <url>
+    <loc>/articles/research-significance-analysis.html</loc>
   </url>
   <url>
     <loc>/articles/shiny-app-plots-demo.html</loc>
@@ -19,13 +25,19 @@
     <loc>/index.html</loc>
   </url>
   <url>
-    <loc>/LICENSE.html</loc>
-  </url>
-  <url>
     <loc>/reference/accel.html</loc>
   </url>
   <url>
     <loc>/reference/add_miss_summary_stat.html</loc>
+  </url>
+  <url>
+    <loc>/reference/calculated_values.html</loc>
+  </url>
+  <url>
+    <loc>/reference/clinical_shinyapp.html</loc>
+  </url>
+  <url>
+    <loc>/reference/conditions.html</loc>
   </url>
   <url>
     <loc>/reference/countries.html</loc>
@@ -49,6 +61,9 @@
     <loc>/reference/interventions.html</loc>
   </url>
   <url>
+    <loc>/reference/outcome_analyses.html</loc>
+  </url>
+  <url>
     <loc>/reference/plot_accel.html</loc>
   </url>
   <url>
@@ -65,6 +80,9 @@
   </url>
   <url>
     <loc>/reference/spectral_signature.html</loc>
+  </url>
+  <url>
+    <loc>/reference/sponsors.html</loc>
   </url>
   <url>
     <loc>/reference/studies.html</loc>
