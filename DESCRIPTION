@@ -14,14 +14,18 @@ RoxygenNote: 7.2.3
 Imports:
   dplyr,
   ggplot2,
+  tidyquery,
   purrr,
   tidyr,
   tibble,
   gridExtra,
   maps,
+  stats,
   stringr,
   utils,
-  rlang
+  shiny,
+  rlang,
+  patchwork
 Suggests: 
     knitr,
     rmarkdown,
