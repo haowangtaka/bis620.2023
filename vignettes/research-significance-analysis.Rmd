@@ -297,6 +297,24 @@ In this part, we fit a model with no countries variable. From the summary table,
 model <- lm(p_value ~ ., data = d |> select(p_value, number_of_facilities, actual_duration))
 summary(model)
 ```
+```{r}
+data(studies_all)
+```
+
+```{r}
+studies_all_selected <- select(studies_all, nct_id, last_update_submitted_qc_date)
+
+# Perform the inner join with d
+d_longitudinal <- inner_join(d, studies_all_selected, by = "nct_id")
+```
+
+```{r}
+any_na_in_data <- any(is.na(d_longitudinal))
+print(any_na_in_data)
+```
+```{r}
+
+```
 
 # Interpretation and Conclusions
 

@@ -4,9 +4,6 @@
     <loc>/404.html</loc>
   </url>
   <url>
-    <loc>/LICENSE.html</loc>
-  </url>
-  <url>
     <loc>/articles/index.html</loc>
   </url>
   <url>
@@ -23,6 +20,9 @@
   </url>
   <url>
     <loc>/index.html</loc>
+  </url>
+  <url>
+    <loc>/LICENSE.html</loc>
   </url>
   <url>
     <loc>/reference/accel.html</loc>
@@ -86,5 +86,8 @@
   </url>
   <url>
     <loc>/reference/studies.html</loc>
+  </url>
+  <url>
+    <loc>/reference/studies_all.html</loc>
   </url>
 </urlset>
