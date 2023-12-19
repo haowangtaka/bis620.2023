@@ -53,6 +53,9 @@
       <a href="../articles/research-significance-analysis.html">Evaluating the Determinants and Evolution of Clinical Trial Outcome Significance</a>
     </li>
     <li>
+      <a href="../articles/research-ts-analysis.html">Time Series Analysis for Clinical Studies</a>
+    </li>
+    <li>
       <a href="../articles/shiny-app-plots-demo.html">shiny-app-plots-demo</a>
     </li>
     <li>
@@ -166,31 +169,13 @@ from AACT database. For convenience, we download them and save them as
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://purrr.tidyverse.org/" class="external-link">purrr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org" class="external-link">tidyr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://patchwork.data-imaginist.com" class="external-link">patchwork</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: package 'patchwork' was built under R version 4.3.2</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/joshuaulrich/xts" class="external-link">xts</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: package 'xts' was built under R version 4.3.2</span></span>
 <span><span class="co">#&gt; Loading required package: zoo</span></span>
-<span><span class="co">#&gt; Warning: package 'zoo' was built under R version 4.3.2</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Attaching package: 'zoo'</span></span>
 <span><span class="co">#&gt; The following objects are masked from 'package:base':</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;     as.Date, as.Date.numeric</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ######################### Warning from 'xts' package ##########################</span></span>
-<span><span class="co">#&gt; #                                                                             #</span></span>
-<span><span class="co">#&gt; # The dplyr lag() function breaks how base R's lag() function is supposed to  #</span></span>
-<span><span class="co">#&gt; # work, which breaks lag(my_xts). Calls to lag(my_xts) that you type or       #</span></span>
-<span><span class="co">#&gt; # source() into this session won't work correctly.                            #</span></span>
-<span><span class="co">#&gt; #                                                                             #</span></span>
-<span><span class="co">#&gt; # Use stats::lag() to make sure you're not using dplyr::lag(), or you can add #</span></span>
-<span><span class="co">#&gt; # conflictRules('dplyr', exclude = 'lag') to your .Rprofile to stop           #</span></span>
-<span><span class="co">#&gt; # dplyr from breaking base R's lag() function.                                #</span></span>
-<span><span class="co">#&gt; #                                                                             #</span></span>
-<span><span class="co">#&gt; # Code in packages is not affected. It's protected by R's namespace mechanism #</span></span>
-<span><span class="co">#&gt; # Set `options(xts.warn_dplyr_breaks_lag = FALSE)` to suppress this warning.  #</span></span>
-<span><span class="co">#&gt; #                                                                             #</span></span>
-<span><span class="co">#&gt; ###############################################################################</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Attaching package: 'xts'</span></span>
 <span><span class="co">#&gt; The following objects are masked from 'package:dplyr':</span></span>
@@ -221,7 +206,7 @@ cross-countries clinical trials are 39,753.</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 52<span style="text-decoration: underline;">996</span>798 NCT00118482 Canada        FALSE  </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 52<span style="text-decoration: underline;">996</span>799 NCT03966950 Brazil        FALSE  </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 52<span style="text-decoration: underline;">996</span>800 NCT03755752 Egypt         FALSE  </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 654,086 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 654,086 more rows</span></span></span></code></pre></div>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">countries</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html" class="external-link">colSums</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt;      id  nct_id    name removed </span></span>
@@ -245,25 +230,25 @@ column.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">outcome_analyses</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 256,592 × 22</span></span></span>
-<span><span class="co">#&gt;          id nct_id      outcome_id non_inferiority_type non_inferiority_descri…¹</span></span>
-<span><span class="co">#&gt;       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 18<span style="text-decoration: underline;">909</span>128 NCT03989232   35<span style="text-decoration: underline;">195</span>693 Superiority          <span style="color: #BB0000;">NA</span>                      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> 18<span style="text-decoration: underline;">909</span>129 NCT03989232   35<span style="text-decoration: underline;">195</span>693 Superiority          <span style="color: #BB0000;">NA</span>                      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> 19<span style="text-decoration: underline;">011</span>925 NCT01860846   35<span style="text-decoration: underline;">422</span>200 Superiority or Other <span style="color: #BB0000;">NA</span>                      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> 18<span style="text-decoration: underline;">909</span>130 NCT02584504   35<span style="text-decoration: underline;">195</span>706 Superiority          <span style="color: #BB0000;">NA</span>                      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> 18<span style="text-decoration: underline;">909</span>131 NCT02584504   35<span style="text-decoration: underline;">195</span>706 Superiority          <span style="color: #BB0000;">NA</span>                      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> 18<span style="text-decoration: underline;">909</span>132 NCT02584504   35<span style="text-decoration: underline;">195</span>706 Other                Statistical test was no…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> 18<span style="text-decoration: underline;">909</span>133 NCT02584504   35<span style="text-decoration: underline;">195</span>707 Superiority          <span style="color: #BB0000;">NA</span>                      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 18<span style="text-decoration: underline;">909</span>134 NCT02584504   35<span style="text-decoration: underline;">195</span>707 Superiority          <span style="color: #BB0000;">NA</span>                      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 18<span style="text-decoration: underline;">909</span>135 NCT02584504   35<span style="text-decoration: underline;">195</span>708 Superiority          <span style="color: #BB0000;">NA</span>                      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 18<span style="text-decoration: underline;">909</span>136 NCT02584504   35<span style="text-decoration: underline;">195</span>708 Superiority          <span style="color: #BB0000;">NA</span>                      </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 256,582 more rows</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ abbreviated name: ¹​non_inferiority_description</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 17 more variables: param_type &lt;chr&gt;, param_value &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   dispersion_type &lt;chr&gt;, dispersion_value &lt;dbl&gt;, p_value_modifier &lt;chr&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   p_value &lt;dbl&gt;, ci_n_sides &lt;chr&gt;, ci_percent &lt;dbl&gt;, ci_lower_limit &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   ci_upper_limit &lt;dbl&gt;, ci_upper_limit_na_comment &lt;chr&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   p_value_description &lt;chr&gt;, method &lt;chr&gt;, method_description &lt;chr&gt;, …</span></span></span></code></pre></div>
+<span><span class="co">#&gt;        id nct_id outco…¹ non_i…² non_i…³ param…⁴ param…⁵ dispe…⁶ dispe…⁷ p_val…⁸</span></span>
+<span><span class="co">#&gt;     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 1.89<span style="color: #949494;">e</span>7 NCT03…  3.52<span style="color: #949494;">e</span>7 Superi… <span style="color: #BB0000;">NA</span>      Treatm…   -<span style="color: #BB0000;">0.23</span> <span style="color: #BB0000;">NA</span>           <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span>     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> 1.89<span style="color: #949494;">e</span>7 NCT03…  3.52<span style="color: #949494;">e</span>7 Superi… <span style="color: #BB0000;">NA</span>      Treatm…   -<span style="color: #BB0000;">0.18</span> <span style="color: #BB0000;">NA</span>           <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span>     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> 1.90<span style="color: #949494;">e</span>7 NCT01…  3.54<span style="color: #949494;">e</span>7 Superi… <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>           <span style="color: #BB0000;">NA</span> =      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> 1.89<span style="color: #949494;">e</span>7 NCT02…  3.52<span style="color: #949494;">e</span>7 Superi… <span style="color: #BB0000;">NA</span>      Least …  -<span style="color: #BB0000;">39.5</span>  <span style="color: #BB0000;">NA</span>           <span style="color: #BB0000;">NA</span> &lt;      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> 1.89<span style="color: #949494;">e</span>7 NCT02…  3.52<span style="color: #949494;">e</span>7 Superi… <span style="color: #BB0000;">NA</span>      LS Mea…  -<span style="color: #BB0000;">65.8</span>  <span style="color: #BB0000;">NA</span>           <span style="color: #BB0000;">NA</span> &lt;      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> 1.89<span style="color: #949494;">e</span>7 NCT02…  3.52<span style="color: #949494;">e</span>7 Other   Statis… LS Mea…  -<span style="color: #BB0000;">26.3</span>  <span style="color: #BB0000;">NA</span>           <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span>     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> 1.89<span style="color: #949494;">e</span>7 NCT02…  3.52<span style="color: #949494;">e</span>7 Superi… <span style="color: #BB0000;">NA</span>      LS Mea…  -<span style="color: #BB0000;">40.6</span>  <span style="color: #BB0000;">NA</span>           <span style="color: #BB0000;">NA</span> &lt;      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 1.89<span style="color: #949494;">e</span>7 NCT02…  3.52<span style="color: #949494;">e</span>7 Superi… <span style="color: #BB0000;">NA</span>      LS Mea…  -<span style="color: #BB0000;">67.4</span>  <span style="color: #BB0000;">NA</span>           <span style="color: #BB0000;">NA</span> &lt;      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 1.89<span style="color: #949494;">e</span>7 NCT02…  3.52<span style="color: #949494;">e</span>7 Superi… <span style="color: #BB0000;">NA</span>      LS Mea…  -<span style="color: #BB0000;">50.5</span>  <span style="color: #BB0000;">NA</span>           <span style="color: #BB0000;">NA</span> &lt;      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 1.89<span style="color: #949494;">e</span>7 NCT02…  3.52<span style="color: #949494;">e</span>7 Superi… <span style="color: #BB0000;">NA</span>      LS Mea…  -<span style="color: #BB0000;">66.2</span>  <span style="color: #BB0000;">NA</span>           <span style="color: #BB0000;">NA</span> &lt;      </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 256,582 more rows, 12 more variables: p_value &lt;dbl&gt;, ci_n_sides &lt;chr&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   ci_percent &lt;dbl&gt;, ci_lower_limit &lt;dbl&gt;, ci_upper_limit &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   ci_upper_limit_na_comment &lt;chr&gt;, p_value_description &lt;chr&gt;, method &lt;chr&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   method_description &lt;chr&gt;, estimate_description &lt;chr&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   groups_description &lt;chr&gt;, other_analysis_description &lt;chr&gt;, and abbreviated</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   variable names ¹​outcome_id, ²​non_inferiority_type,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   ³​non_inferiority_description, ⁴​param_type, ⁵​param_value, …</span></span></span></code></pre></div>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">outcome_analyses</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">p_value</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html" class="external-link">colSums</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; p_value </span></span>
@@ -279,25 +264,25 @@ USA.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">calculated_values</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 467,212 × 19</span></span></span>
-<span><span class="co">#&gt;           id nct_id      number_of_facilities number_of_nsae_subjects</span></span>
-<span><span class="co">#&gt;        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>                   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 275<span style="text-decoration: underline;">718</span>269 NCT05354973                    1                      <span style="color: #BB0000;">NA</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> 275<span style="text-decoration: underline;">739</span>505 NCT04406233                    1                      <span style="color: #BB0000;">NA</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> 275<span style="text-decoration: underline;">749</span>805 NCT05064124                    1                      <span style="color: #BB0000;">NA</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> 275<span style="text-decoration: underline;">833</span>878 NCT05970133                    1                      <span style="color: #BB0000;">NA</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> 276<span style="text-decoration: underline;">028</span>358 NCT02661880                   <span style="color: #BB0000;">NA</span>                      <span style="color: #BB0000;">NA</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> 275<span style="text-decoration: underline;">772</span>178 NCT05065788                    1                      <span style="color: #BB0000;">NA</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> 275<span style="text-decoration: underline;">760</span>496 NCT04926558                    1                      <span style="color: #BB0000;">NA</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 275<span style="text-decoration: underline;">751</span>352 NCT04280367                    1                      <span style="color: #BB0000;">NA</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 275<span style="text-decoration: underline;">714</span>902 NCT05289154                    1                      <span style="color: #BB0000;">NA</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 275<span style="text-decoration: underline;">758</span>499 NCT04281927                    1                      <span style="color: #BB0000;">NA</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 467,202 more rows</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 15 more variables: number_of_sae_subjects &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   registered_in_calendar_year &lt;dbl&gt;, nlm_download_date &lt;lgl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   actual_duration &lt;dbl&gt;, were_results_reported &lt;lgl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   months_to_report_results &lt;dbl&gt;, has_us_facility &lt;lgl&gt;,</span></span></span>
+<span><span class="co">#&gt;        id nct_id numbe…¹ numbe…² numbe…³ regis…⁴ nlm_d…⁵ actua…⁶ were_…⁷ month…⁸</span></span>
+<span><span class="co">#&gt;     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 2.76<span style="color: #949494;">e</span>8 NCT05…       1      <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>    <span style="text-decoration: underline;">2</span>022 <span style="color: #BB0000;">NA</span>           <span style="color: #BB0000;">NA</span> FALSE        <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> 2.76<span style="color: #949494;">e</span>8 NCT04…       1      <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>    <span style="text-decoration: underline;">2</span>020 <span style="color: #BB0000;">NA</span>           <span style="color: #BB0000;">NA</span> FALSE        <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> 2.76<span style="color: #949494;">e</span>8 NCT05…       1      <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>    <span style="text-decoration: underline;">2</span>021 <span style="color: #BB0000;">NA</span>           <span style="color: #BB0000;">NA</span> FALSE        <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> 2.76<span style="color: #949494;">e</span>8 NCT05…       1      <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>    <span style="text-decoration: underline;">2</span>023 <span style="color: #BB0000;">NA</span>           <span style="color: #BB0000;">NA</span> FALSE        <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> 2.76<span style="color: #949494;">e</span>8 NCT02…      <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>    <span style="text-decoration: underline;">2</span>016 <span style="color: #BB0000;">NA</span>            1 FALSE        <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> 2.76<span style="color: #949494;">e</span>8 NCT05…       1      <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>    <span style="text-decoration: underline;">2</span>021 <span style="color: #BB0000;">NA</span>           19 FALSE        <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> 2.76<span style="color: #949494;">e</span>8 NCT04…       1      <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>    <span style="text-decoration: underline;">2</span>021 <span style="color: #BB0000;">NA</span>            2 FALSE        <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 2.76<span style="color: #949494;">e</span>8 NCT04…       1      <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>    <span style="text-decoration: underline;">2</span>020 <span style="color: #BB0000;">NA</span>            4 FALSE        <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 2.76<span style="color: #949494;">e</span>8 NCT05…       1      <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>    <span style="text-decoration: underline;">2</span>022 <span style="color: #BB0000;">NA</span>           <span style="color: #BB0000;">NA</span> FALSE        <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 2.76<span style="color: #949494;">e</span>8 NCT04…       1      <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>    <span style="text-decoration: underline;">2</span>020 <span style="color: #BB0000;">NA</span>            8 FALSE        <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 467,202 more rows, 9 more variables: has_us_facility &lt;lgl&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   has_single_facility &lt;lgl&gt;, minimum_age_num &lt;dbl&gt;, maximum_age_num &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   minimum_age_unit &lt;chr&gt;, maximum_age_unit &lt;chr&gt;, …</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;">#   minimum_age_unit &lt;chr&gt;, maximum_age_unit &lt;chr&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   number_of_primary_outcomes_to_measure &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   number_of_secondary_outcomes_to_measure &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   number_of_other_outcomes_to_measure &lt;dbl&gt;, and abbreviated variable names</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   ¹​number_of_facilities, ²​number_of_nsae_subjects, ³​number_of_sae_subjects, …</span></span></span></code></pre></div>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">calculated_values</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">number_of_facilities</span>, <span class="va">actual_duration</span>, <span class="va">has_us_facility</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html" class="external-link">colSums</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; number_of_facilities      actual_duration      has_us_facility </span></span>
@@ -367,19 +352,20 @@ memory size in table joining process.</p>
 <span><span class="va">d</span> <span class="op">&lt;-</span> <span class="va">d</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">name</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">valid_countries</span><span class="op">)</span></span>
 <span><span class="va">d</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 746,903 × 6</span></span></span>
-<span><span class="co">#&gt;    nct_id     p_value name  number_of_facilities actual_duration has_us_facility</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>          </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> NCT039892…  0.000<span style="text-decoration: underline;">3</span> Unit…                  129              15 TRUE           </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> NCT039892…  0.000<span style="text-decoration: underline;">3</span> Bulg…                  129              15 TRUE           </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> NCT039892…  0.000<span style="text-decoration: underline;">3</span> Cana…                  129              15 TRUE           </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> NCT039892…  0.000<span style="text-decoration: underline;">3</span> Czec…                  129              15 TRUE           </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> NCT039892…  0.000<span style="text-decoration: underline;">3</span> Gree…                  129              15 TRUE           </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> NCT039892…  0.000<span style="text-decoration: underline;">3</span> Hung…                  129              15 TRUE           </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> NCT039892…  0.000<span style="text-decoration: underline;">3</span> Japan                  129              15 TRUE           </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> NCT039892…  0.000<span style="text-decoration: underline;">3</span> Pola…                  129              15 TRUE           </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> NCT039892…  0.000<span style="text-decoration: underline;">3</span> Puer…                  129              15 TRUE           </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> NCT039892…  0.000<span style="text-decoration: underline;">3</span> Slov…                  129              15 TRUE           </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 746,893 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt;    nct_id      p_value name          number_of_facilities actual_durat…¹ has_u…²</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> NCT03989232  0.000<span style="text-decoration: underline;">3</span> United States                  129             15 TRUE   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> NCT03989232  0.000<span style="text-decoration: underline;">3</span> Bulgaria                       129             15 TRUE   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> NCT03989232  0.000<span style="text-decoration: underline;">3</span> Canada                         129             15 TRUE   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> NCT03989232  0.000<span style="text-decoration: underline;">3</span> Czechia                        129             15 TRUE   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> NCT03989232  0.000<span style="text-decoration: underline;">3</span> Greece                         129             15 TRUE   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> NCT03989232  0.000<span style="text-decoration: underline;">3</span> Hungary                        129             15 TRUE   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> NCT03989232  0.000<span style="text-decoration: underline;">3</span> Japan                          129             15 TRUE   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> NCT03989232  0.000<span style="text-decoration: underline;">3</span> Poland                         129             15 TRUE   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> NCT03989232  0.000<span style="text-decoration: underline;">3</span> Puerto Rico                    129             15 TRUE   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> NCT03989232  0.000<span style="text-decoration: underline;">3</span> Slovakia                       129             15 TRUE   </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 746,893 more rows, and abbreviated variable names ¹​actual_duration,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   ²​has_us_facility</span></span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="data-visualization-and-transformation">Data Visualization and Transformation<a class="anchor" aria-label="anchor" href="#data-visualization-and-transformation"></a>
@@ -440,7 +426,7 @@ distributions of the p values.</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Poland              <span style="text-decoration: underline;">2</span>107</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Australia           <span style="text-decoration: underline;">1</span>720</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Russian Federation  <span style="text-decoration: underline;">1</span>709</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 82 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 82 more rows</span></span></span></code></pre></div>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">top_three</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"United States"</span>, <span class="st">"Canada"</span>, <span class="st">"Germany"</span><span class="op">)</span></span>
 <span><span class="va">p</span> <span class="op">&lt;-</span> <span class="va">d</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">name</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">top_three</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">nct_id</span>, <span class="va">p_value</span>, <span class="va">name</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/distinct.html" class="external-link">distinct</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -583,25 +569,25 @@ generate the corresponding dummy variables and transform our dataset
 <span><span class="va">d</span> <span class="op">&lt;-</span> <span class="va">d</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">inner_join</a></span><span class="op">(</span><span class="va">d_tmp</span>, by <span class="op">=</span> <span class="st">"nct_id"</span><span class="op">)</span></span>
 <span><span class="va">d</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 12,314 × 96</span></span></span>
-<span><span class="co">#&gt;    nct_id p_value number_of_facilities actual_duration nameAlgeria nameArgentina</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> NCT00… -<span style="color: #BB0000;">2.94</span>                      1              59           0             0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> NCT00… -<span style="color: #BB0000;">1.52</span>                      3              80           0             0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> NCT00… -<span style="color: #BB0000;">2.24</span>                      7             118           0             0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> NCT00… -<span style="color: #BB0000;">0.275</span>                     1             133           0             0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> NCT00… -<span style="color: #BB0000;">4.94</span>                      1             163           0             0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> NCT00… -<span style="color: #BB0000;">3.12</span>                      1             107           0             0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> NCT00…  0.090<span style="text-decoration: underline;">5</span>                    1             260           0             0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> NCT00… -<span style="color: #BB0000;">3.50</span>                     14             220           0             0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> NCT00… -<span style="color: #BB0000;">3.70</span>                      1              65           0             0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> NCT00… -<span style="color: #BB0000;">1.13</span>                      1             110           0             0</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 12,304 more rows</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 90 more variables: nameAustralia &lt;dbl&gt;, nameAustria &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   nameBangladesh &lt;dbl&gt;, nameBelarus &lt;dbl&gt;, nameBelgium &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   `nameBosnia and Herzegovina` &lt;dbl&gt;, nameBotswana &lt;dbl&gt;, nameBrazil &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   nameBulgaria &lt;dbl&gt;, nameCanada &lt;dbl&gt;, nameChile &lt;dbl&gt;, nameChina &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   nameColombia &lt;dbl&gt;, `nameCosta Rica` &lt;dbl&gt;, nameCroatia &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   nameCyprus &lt;dbl&gt;, `nameCzech Republic` &lt;dbl&gt;, nameCzechia &lt;dbl&gt;, …</span></span></span></code></pre></div>
+<span><span class="co">#&gt;    nct_id      p_value number_…¹ actua…² nameA…³ nameA…⁴ nameA…⁵ nameA…⁶ nameB…⁷</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> NCT00000378 -<span style="color: #BB0000;">2.94</span>           1      59       0       0       0       0       0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> NCT00000392 -<span style="color: #BB0000;">1.52</span>           3      80       0       0       0       0       0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> NCT00000620 -<span style="color: #BB0000;">2.24</span>           7     118       0       0       0       0       0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> NCT00001656 -<span style="color: #BB0000;">0.275</span>          1     133       0       0       0       0       0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> NCT00001723 -<span style="color: #BB0000;">4.94</span>           1     163       0       0       0       0       0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> NCT00001959 -<span style="color: #BB0000;">3.12</span>           1     107       0       0       0       0       0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> NCT00002525  0.090<span style="text-decoration: underline;">5</span>         1     260       0       0       0       0       0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> NCT00002651 -<span style="color: #BB0000;">3.50</span>          14     220       0       0       0       0       0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> NCT00003222 -<span style="color: #BB0000;">3.70</span>           1      65       0       0       0       0       0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> NCT00003869 -<span style="color: #BB0000;">1.13</span>           1     110       0       0       0       0       0</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 12,304 more rows, 87 more variables: nameBelarus &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   nameBelgium &lt;dbl&gt;, `nameBosnia and Herzegovina` &lt;dbl&gt;, nameBotswana &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   nameBrazil &lt;dbl&gt;, nameBulgaria &lt;dbl&gt;, nameCanada &lt;dbl&gt;, nameChile &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   nameChina &lt;dbl&gt;, nameColombia &lt;dbl&gt;, `nameCosta Rica` &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   nameCroatia &lt;dbl&gt;, nameCyprus &lt;dbl&gt;, `nameCzech Republic` &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   nameCzechia &lt;dbl&gt;, nameDenmark &lt;dbl&gt;, `nameDominican Republic` &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   nameEcuador &lt;dbl&gt;, nameEgypt &lt;dbl&gt;, nameEstonia &lt;dbl&gt;, nameFinland &lt;dbl&gt;, …</span></span></span></code></pre></div>
 <p>Next, we fit our full model. Given confidence level 95%, only
 <code>number_of_facilities</code>, <code>actual_duration</code>,
 <code>nameAustria</code>, <code>nameBelgium</code>,
@@ -1111,25 +1097,25 @@ Available) values in the dataset.</p>
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">d_longitudinal</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 12,314 × 97</span></span></span>
-<span><span class="co">#&gt;    nct_id p_value number_of_facilities actual_duration nameAlgeria nameArgentina</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> NCT00… -<span style="color: #BB0000;">2.94</span>                      1              59           0             0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> NCT00… -<span style="color: #BB0000;">1.52</span>                      3              80           0             0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> NCT00… -<span style="color: #BB0000;">2.24</span>                      7             118           0             0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> NCT00… -<span style="color: #BB0000;">0.275</span>                     1             133           0             0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> NCT00… -<span style="color: #BB0000;">4.94</span>                      1             163           0             0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> NCT00… -<span style="color: #BB0000;">3.12</span>                      1             107           0             0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> NCT00…  0.090<span style="text-decoration: underline;">5</span>                    1             260           0             0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> NCT00… -<span style="color: #BB0000;">3.50</span>                     14             220           0             0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> NCT00… -<span style="color: #BB0000;">3.70</span>                      1              65           0             0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> NCT00… -<span style="color: #BB0000;">1.13</span>                      1             110           0             0</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 12,304 more rows</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 91 more variables: nameAustralia &lt;dbl&gt;, nameAustria &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   nameBangladesh &lt;dbl&gt;, nameBelarus &lt;dbl&gt;, nameBelgium &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   `nameBosnia and Herzegovina` &lt;dbl&gt;, nameBotswana &lt;dbl&gt;, nameBrazil &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   nameBulgaria &lt;dbl&gt;, nameCanada &lt;dbl&gt;, nameChile &lt;dbl&gt;, nameChina &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   nameColombia &lt;dbl&gt;, `nameCosta Rica` &lt;dbl&gt;, nameCroatia &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   nameCyprus &lt;dbl&gt;, `nameCzech Republic` &lt;dbl&gt;, nameCzechia &lt;dbl&gt;, …</span></span></span></code></pre></div>
+<span><span class="co">#&gt;    nct_id      p_value number_…¹ actua…² nameA…³ nameA…⁴ nameA…⁵ nameA…⁶ nameB…⁷</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> NCT00000378 -<span style="color: #BB0000;">2.94</span>           1      59       0       0       0       0       0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> NCT00000392 -<span style="color: #BB0000;">1.52</span>           3      80       0       0       0       0       0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> NCT00000620 -<span style="color: #BB0000;">2.24</span>           7     118       0       0       0       0       0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> NCT00001656 -<span style="color: #BB0000;">0.275</span>          1     133       0       0       0       0       0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> NCT00001723 -<span style="color: #BB0000;">4.94</span>           1     163       0       0       0       0       0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> NCT00001959 -<span style="color: #BB0000;">3.12</span>           1     107       0       0       0       0       0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> NCT00002525  0.090<span style="text-decoration: underline;">5</span>         1     260       0       0       0       0       0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> NCT00002651 -<span style="color: #BB0000;">3.50</span>          14     220       0       0       0       0       0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> NCT00003222 -<span style="color: #BB0000;">3.70</span>           1      65       0       0       0       0       0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> NCT00003869 -<span style="color: #BB0000;">1.13</span>           1     110       0       0       0       0       0</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 12,304 more rows, 88 more variables: nameBelarus &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   nameBelgium &lt;dbl&gt;, `nameBosnia and Herzegovina` &lt;dbl&gt;, nameBotswana &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   nameBrazil &lt;dbl&gt;, nameBulgaria &lt;dbl&gt;, nameCanada &lt;dbl&gt;, nameChile &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   nameChina &lt;dbl&gt;, nameColombia &lt;dbl&gt;, `nameCosta Rica` &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   nameCroatia &lt;dbl&gt;, nameCyprus &lt;dbl&gt;, `nameCzech Republic` &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   nameCzechia &lt;dbl&gt;, nameDenmark &lt;dbl&gt;, `nameDominican Republic` &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   nameEcuador &lt;dbl&gt;, nameEgypt &lt;dbl&gt;, nameEstonia &lt;dbl&gt;, nameFinland &lt;dbl&gt;, …</span></span></span></code></pre></div>
 <p>The final step in our data preparation involves recovering the
 p_value column to the original value without any transformation. We
 apply a mathematical transformation to the p-values, converting them
@@ -1320,7 +1306,7 @@ variability in data collection practices.</p>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>

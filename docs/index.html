@@ -53,6 +53,9 @@
       <a href="articles/research-significance-analysis.html">Evaluating the Determinants and Evolution of Clinical Trial Outcome Significance</a>
     </li>
     <li>
+      <a href="articles/research-ts-analysis.html">Time Series Analysis for Clinical Studies</a>
+    </li>
+    <li>
       <a href="articles/shiny-app-plots-demo.html">shiny-app-plots-demo</a>
     </li>
     <li>
@@ -89,34 +92,52 @@
 <code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
 <span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"haowangtaka/bis620.2023"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Downloading GitHub repo haowangtaka/bis620.2023@HEAD</span></span>
-<span><span class="co">#&gt; rlang   (1.1.1  -&gt; 1.1.2  ) [CRAN]</span></span>
-<span><span class="co">#&gt; vctrs   (0.6.4  -&gt; 0.6.5  ) [CRAN]</span></span>
-<span><span class="co">#&gt; stringi (1.7.12 -&gt; 1.8.2  ) [CRAN]</span></span>
-<span><span class="co">#&gt; cpp11   (0.4.6  -&gt; 0.4.7  ) [CRAN]</span></span>
-<span><span class="co">#&gt; dplyr   (1.1.3  -&gt; 1.1.4  ) [CRAN]</span></span>
-<span><span class="co">#&gt; maps    (3.4.1  -&gt; 3.4.1.1) [CRAN]</span></span>
-<span><span class="co">#&gt; Installing 6 packages: rlang, vctrs, stringi, cpp11, dplyr, maps</span></span>
-<span><span class="co">#&gt; Installing packages into 'C:/Users/Taka/AppData/Local/Temp/RtmpcXicyQ/temp_libpath4cb024ac1d2b'</span></span>
+<span><span class="co">#&gt; rlang     (1.1.1   -&gt; 1.1.2 ) [CRAN]</span></span>
+<span><span class="co">#&gt; cli       (3.6.1   -&gt; 3.6.2 ) [CRAN]</span></span>
+<span><span class="co">#&gt; fansi     (1.0.5   -&gt; 1.0.6 ) [CRAN]</span></span>
+<span><span class="co">#&gt; vctrs     (0.6.4   -&gt; 0.6.5 ) [CRAN]</span></span>
+<span><span class="co">#&gt; sass      (0.4.7   -&gt; 0.4.8 ) [CRAN]</span></span>
+<span><span class="co">#&gt; jsonlite  (1.8.7   -&gt; 1.8.8 ) [CRAN]</span></span>
+<span><span class="co">#&gt; htmltools (0.5.6.1 -&gt; 0.5.7 ) [CRAN]</span></span>
+<span><span class="co">#&gt; later     (1.3.1   -&gt; 1.3.2 ) [CRAN]</span></span>
+<span><span class="co">#&gt; stringi   (1.7.12  -&gt; 1.8.3 ) [CRAN]</span></span>
+<span><span class="co">#&gt; cpp11     (0.4.6   -&gt; 0.4.7 ) [CRAN]</span></span>
+<span><span class="co">#&gt; bslib     (0.5.1   -&gt; 0.6.1 ) [CRAN]</span></span>
+<span><span class="co">#&gt; httpuv    (1.6.12  -&gt; 1.6.13) [CRAN]</span></span>
+<span><span class="co">#&gt; dplyr     (1.1.3   -&gt; 1.1.4 ) [CRAN]</span></span>
+<span><span class="co">#&gt; shiny     (1.7.5.1 -&gt; 1.8.0 ) [CRAN]</span></span>
+<span><span class="co">#&gt; maps      (3.4.1   -&gt; 3.4.2 ) [CRAN]</span></span>
+<span><span class="co">#&gt; Installing 15 packages: rlang, cli, fansi, vctrs, sass, jsonlite, htmltools, later, stringi, cpp11, bslib, httpuv, dplyr, shiny, maps</span></span>
+<span><span class="co">#&gt; Installing packages into 'C:/Users/Taka/AppData/Local/Temp/RtmpKAuL3d/temp_libpath22a8108408c'</span></span>
 <span><span class="co">#&gt; (as 'lib' is unspecified)</span></span>
 <span><span class="co">#&gt; package 'rlang' successfully unpacked and MD5 sums checked</span></span>
+<span><span class="co">#&gt; package 'cli' successfully unpacked and MD5 sums checked</span></span>
+<span><span class="co">#&gt; package 'fansi' successfully unpacked and MD5 sums checked</span></span>
 <span><span class="co">#&gt; package 'vctrs' successfully unpacked and MD5 sums checked</span></span>
+<span><span class="co">#&gt; package 'sass' successfully unpacked and MD5 sums checked</span></span>
+<span><span class="co">#&gt; package 'jsonlite' successfully unpacked and MD5 sums checked</span></span>
+<span><span class="co">#&gt; package 'htmltools' successfully unpacked and MD5 sums checked</span></span>
+<span><span class="co">#&gt; package 'later' successfully unpacked and MD5 sums checked</span></span>
 <span><span class="co">#&gt; package 'stringi' successfully unpacked and MD5 sums checked</span></span>
 <span><span class="co">#&gt; package 'cpp11' successfully unpacked and MD5 sums checked</span></span>
+<span><span class="co">#&gt; package 'bslib' successfully unpacked and MD5 sums checked</span></span>
+<span><span class="co">#&gt; package 'httpuv' successfully unpacked and MD5 sums checked</span></span>
 <span><span class="co">#&gt; package 'dplyr' successfully unpacked and MD5 sums checked</span></span>
+<span><span class="co">#&gt; package 'shiny' successfully unpacked and MD5 sums checked</span></span>
 <span><span class="co">#&gt; package 'maps' successfully unpacked and MD5 sums checked</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; The downloaded binary packages are in</span></span>
-<span><span class="co">#&gt;  C:\Users\Taka\AppData\Local\Temp\RtmpcZXJ7R\downloaded_packages</span></span>
+<span><span class="co">#&gt;  C:\Users\Taka\AppData\Local\Temp\Rtmp6XPaVs\downloaded_packages</span></span>
 <span><span class="co">#&gt; ── R CMD build ─────────────────────────────────────────────────────────────────</span></span>
-<span><span class="co">#&gt;          checking for file 'C:\Users\Taka\AppData\Local\Temp\RtmpcZXJ7R\remotes35187a1a177b\haowangtaka-bis620.2023-be310fb/DESCRIPTION' ...  ✔  checking for file 'C:\Users\Taka\AppData\Local\Temp\RtmpcZXJ7R\remotes35187a1a177b\haowangtaka-bis620.2023-be310fb/DESCRIPTION'</span></span>
-<span><span class="co">#&gt;       ─  preparing 'bis620.2023':</span></span>
+<span><span class="co">#&gt;          checking for file 'C:\Users\Taka\AppData\Local\Temp\Rtmp6XPaVs\remotes266c436a75ca\haowangtaka-bis620.2023-96dc7d9/DESCRIPTION' ...     checking for file 'C:\Users\Taka\AppData\Local\Temp\Rtmp6XPaVs\remotes266c436a75ca\haowangtaka-bis620.2023-96dc7d9/DESCRIPTION' ...   ✔  checking for file 'C:\Users\Taka\AppData\Local\Temp\Rtmp6XPaVs\remotes266c436a75ca\haowangtaka-bis620.2023-96dc7d9/DESCRIPTION'</span></span>
+<span><span class="co">#&gt;       ─  preparing 'bis620.2023': (359ms)</span></span>
 <span><span class="co">#&gt;    checking DESCRIPTION meta-information ...     checking DESCRIPTION meta-information ...   ✔  checking DESCRIPTION meta-information</span></span>
 <span><span class="co">#&gt;       ─  checking for LF line-endings in source and make files and shell scripts</span></span>
 <span><span class="co">#&gt;       ─  checking for empty or unneeded directories</span></span>
 <span><span class="co">#&gt;       ─  building 'bis620.2023_0.1.0.tar.gz'</span></span>
 <span><span class="co">#&gt;      </span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Installing package into 'C:/Users/Taka/AppData/Local/Temp/RtmpcXicyQ/temp_libpath4cb024ac1d2b'</span></span>
+<span><span class="co">#&gt; Installing package into 'C:/Users/Taka/AppData/Local/Temp/RtmpKAuL3d/temp_libpath22a8108408c'</span></span>
 <span><span class="co">#&gt; (as 'lib' is unspecified)</span></span></code></pre></div>
 </div>
 <div class="section level2">
@@ -176,10 +197,10 @@
 <span></span>
 <span><span class="fu"><a href="reference/plot_countries_map.html">plot_countries_map</a></span><span class="op">(</span><span class="va">studies</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-4-1.png" width="100%"></p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="co">#&gt; TableGrob (1 x 2) "arrange": 2 grobs</span></span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="co">#&gt;   z     cells    name           grob</span></span>
-<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="co">#&gt; 1 1 (1-1,1-1) arrange gtable[layout]</span></span>
-<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="co">#&gt; 2 2 (1-1,2-2) arrange gtable[layout]</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; TableGrob (1 x 2) "arrange": 2 grobs</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   z     cells    name           grob</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 1 (1-1,1-1) arrange gtable[layout]</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 2 (1-1,2-2) arrange gtable[layout]</span></span></code></pre></div>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/plot_document_histogram_pie.html">plot_document_histogram_pie</a></span><span class="op">(</span><span class="va">studies</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-5-1.png" width="100%"></p>
@@ -242,7 +263,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>
