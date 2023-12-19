@@ -33,3 +33,5 @@ usethis::use_data(outcome_analyses, overwrite = TRUE)
 calculated_values = readRDS("calculated_values.rds")
 usethis::use_data(calculated_values, overwrite = TRUE)
 
+studies_all = readRDS("studies_all.rds")
+usethis::use_data(studies_all, overwrite = TRUE)

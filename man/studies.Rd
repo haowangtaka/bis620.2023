@@ -9,11 +9,20 @@
 
 A data frame with 10000 rows and 70 columns. Please go to the \href{https://aact.ctti-clinicaltrials.org/pipe_files}{clinical trials download site} to get access to the information of this dataset.
 }
+
+\subsection{\code{studies_all}}{
+
+A data frame contains full set of studies. Please go to the \href{https://aact.ctti-clinicaltrials.org/pipe_files}{clinical trials download site} to get access to the information of this dataset.
+}
 }
 \usage{
 studies
+
+studies
 }
 \description{
+A subset of NCT studies data for BIS620
+
 A subset of NCT studies data for BIS620
 }
 \keyword{datasets}
