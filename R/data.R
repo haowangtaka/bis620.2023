@@ -97,10 +97,10 @@
 #' A data frame with 256,592 rows and 22 columns. Please go to the [clinical trials download site](https://aact.ctti-clinicaltrials.org/pipe_files) to get access to the information of this dataset.
 "outcome_analyses"
 
-#' A subset of NCT studies
+#' A NCT studies
 #'
-#' A subset of NCT studies data for BIS620
+#' A NCT studies data for BIS620
 #'
 #' @format ## `studies_all`
 #' A data frame contains full set of studies. Please go to the [clinical trials download site](https://aact.ctti-clinicaltrials.org/pipe_files) to get access to the information of this dataset.
-"studies"
+"studies_all"
