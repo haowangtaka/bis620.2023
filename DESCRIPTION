@@ -25,7 +25,8 @@ Imports:
   utils,
   shiny,
   rlang,
-  patchwork
+  patchwork,
+  xts
 Suggests: 
     knitr,
     rmarkdown,

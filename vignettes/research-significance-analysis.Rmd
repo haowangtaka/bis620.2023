@@ -320,7 +320,7 @@ studies_all_selected <- select(studies_all, nct_id, last_update_submitted_qc_dat
 d_longitudinal <- inner_join(d, studies_all_selected, by = "nct_id")
 ```
 
-Here, we select the necessary columns from `studies_all`, specifically `nct_id` and 'last_update_submitted_qc_date'. Note that 'last_update_submitted_qc_date' contains the date when the last update or modification to a clinical trial's data or documentation was submitted for quality control (QC) review or assessment. It signifies a crucial timestamp in the clinical trial management process, indicating when the trial's records were last revised and prepared for quality assurance checks. We then perform an inner join with another dataset 'd'. We aim to merge relevant data from both datasets based on the `nct_id`, which is the unique identifier for each clinical trial. Now we will get time information for each study.
+Here, we select the necessary columns from `studies_all`, specifically `nct_id` and `last_update_submitted_qc_date`. Note that `last_update_submitted_qc_date` contains the date when the last update or modification to a clinical trial's data or documentation was submitted for quality control (QC) review or assessment. It signifies a crucial timestamp in the clinical trial management process, indicating when the trial's records were last revised and prepared for quality assurance checks. We then perform an inner join with another dataset 'd'. We aim to merge relevant data from both datasets based on the `nct_id`, which is the unique identifier for each clinical trial. Now we will get time information for each study.
 
 ```{r}
 any_na_in_data <- any(is.na(d_longitudinal))

@@ -33,34 +33,52 @@ You can install the development version of bis620.2023 from
 # install.packages("devtools")
 devtools::install_github("haowangtaka/bis620.2023")
 #> Downloading GitHub repo haowangtaka/bis620.2023@HEAD
-#> rlang   (1.1.1  -> 1.1.2  ) [CRAN]
-#> vctrs   (0.6.4  -> 0.6.5  ) [CRAN]
-#> stringi (1.7.12 -> 1.8.2  ) [CRAN]
-#> cpp11   (0.4.6  -> 0.4.7  ) [CRAN]
-#> dplyr   (1.1.3  -> 1.1.4  ) [CRAN]
-#> maps    (3.4.1  -> 3.4.1.1) [CRAN]
-#> Installing 6 packages: rlang, vctrs, stringi, cpp11, dplyr, maps
-#> Installing packages into 'C:/Users/Taka/AppData/Local/Temp/RtmpcXicyQ/temp_libpath4cb024ac1d2b'
+#> rlang     (1.1.1   -> 1.1.2 ) [CRAN]
+#> cli       (3.6.1   -> 3.6.2 ) [CRAN]
+#> fansi     (1.0.5   -> 1.0.6 ) [CRAN]
+#> vctrs     (0.6.4   -> 0.6.5 ) [CRAN]
+#> sass      (0.4.7   -> 0.4.8 ) [CRAN]
+#> jsonlite  (1.8.7   -> 1.8.8 ) [CRAN]
+#> htmltools (0.5.6.1 -> 0.5.7 ) [CRAN]
+#> later     (1.3.1   -> 1.3.2 ) [CRAN]
+#> stringi   (1.7.12  -> 1.8.3 ) [CRAN]
+#> cpp11     (0.4.6   -> 0.4.7 ) [CRAN]
+#> bslib     (0.5.1   -> 0.6.1 ) [CRAN]
+#> httpuv    (1.6.12  -> 1.6.13) [CRAN]
+#> dplyr     (1.1.3   -> 1.1.4 ) [CRAN]
+#> shiny     (1.7.5.1 -> 1.8.0 ) [CRAN]
+#> maps      (3.4.1   -> 3.4.2 ) [CRAN]
+#> Installing 15 packages: rlang, cli, fansi, vctrs, sass, jsonlite, htmltools, later, stringi, cpp11, bslib, httpuv, dplyr, shiny, maps
+#> Installing packages into 'C:/Users/Taka/AppData/Local/Temp/RtmpKAuL3d/temp_libpath22a866d11ef2'
 #> (as 'lib' is unspecified)
 #> package 'rlang' successfully unpacked and MD5 sums checked
+#> package 'cli' successfully unpacked and MD5 sums checked
+#> package 'fansi' successfully unpacked and MD5 sums checked
 #> package 'vctrs' successfully unpacked and MD5 sums checked
+#> package 'sass' successfully unpacked and MD5 sums checked
+#> package 'jsonlite' successfully unpacked and MD5 sums checked
+#> package 'htmltools' successfully unpacked and MD5 sums checked
+#> package 'later' successfully unpacked and MD5 sums checked
 #> package 'stringi' successfully unpacked and MD5 sums checked
 #> package 'cpp11' successfully unpacked and MD5 sums checked
+#> package 'bslib' successfully unpacked and MD5 sums checked
+#> package 'httpuv' successfully unpacked and MD5 sums checked
 #> package 'dplyr' successfully unpacked and MD5 sums checked
+#> package 'shiny' successfully unpacked and MD5 sums checked
 #> package 'maps' successfully unpacked and MD5 sums checked
 #> 
 #> The downloaded binary packages are in
-#>  C:\Users\Taka\AppData\Local\Temp\RtmpcZXJ7R\downloaded_packages
+#>  C:\Users\Taka\AppData\Local\Temp\RtmpO8hF7i\downloaded_packages
 #> ── R CMD build ─────────────────────────────────────────────────────────────────
-#>          checking for file 'C:\Users\Taka\AppData\Local\Temp\RtmpcZXJ7R\remotes35187a1a177b\haowangtaka-bis620.2023-be310fb/DESCRIPTION' ...  ✔  checking for file 'C:\Users\Taka\AppData\Local\Temp\RtmpcZXJ7R\remotes35187a1a177b\haowangtaka-bis620.2023-be310fb/DESCRIPTION'
-#>       ─  preparing 'bis620.2023':
+#>          checking for file 'C:\Users\Taka\AppData\Local\Temp\RtmpO8hF7i\remotes1184611d73b9\haowangtaka-bis620.2023-bd63a1a/DESCRIPTION' ...     checking for file 'C:\Users\Taka\AppData\Local\Temp\RtmpO8hF7i\remotes1184611d73b9\haowangtaka-bis620.2023-bd63a1a/DESCRIPTION' ...   ✔  checking for file 'C:\Users\Taka\AppData\Local\Temp\RtmpO8hF7i\remotes1184611d73b9\haowangtaka-bis620.2023-bd63a1a/DESCRIPTION'
+#>       ─  preparing 'bis620.2023': (410ms)
 #>    checking DESCRIPTION meta-information ...     checking DESCRIPTION meta-information ...   ✔  checking DESCRIPTION meta-information
 #>       ─  checking for LF line-endings in source and make files and shell scripts
 #>       ─  checking for empty or unneeded directories
 #>       ─  building 'bis620.2023_0.1.0.tar.gz'
 #>      
 #> 
-#> Installing package into 'C:/Users/Taka/AppData/Local/Temp/RtmpcXicyQ/temp_libpath4cb024ac1d2b'
+#> Installing package into 'C:/Users/Taka/AppData/Local/Temp/RtmpKAuL3d/temp_libpath22a866d11ef2'
 #> (as 'lib' is unspecified)
 ```
 
