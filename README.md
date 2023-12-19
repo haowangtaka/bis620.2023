@@ -49,7 +49,7 @@ devtools::install_github("haowangtaka/bis620.2023")
 #> shiny     (1.7.5.1 -> 1.8.0 ) [CRAN]
 #> maps      (3.4.1   -> 3.4.2 ) [CRAN]
 #> Installing 15 packages: rlang, cli, fansi, vctrs, sass, jsonlite, htmltools, later, stringi, cpp11, bslib, httpuv, dplyr, shiny, maps
-#> Installing packages into 'C:/Users/Taka/AppData/Local/Temp/RtmpKAuL3d/temp_libpath22a866d11ef2'
+#> Installing packages into 'C:/Users/Taka/AppData/Local/Temp/RtmpKAuL3d/temp_libpath22a8108408c'
 #> (as 'lib' is unspecified)
 #> package 'rlang' successfully unpacked and MD5 sums checked
 #> package 'cli' successfully unpacked and MD5 sums checked
@@ -68,17 +68,17 @@ devtools::install_github("haowangtaka/bis620.2023")
 #> package 'maps' successfully unpacked and MD5 sums checked
 #> 
 #> The downloaded binary packages are in
-#>  C:\Users\Taka\AppData\Local\Temp\RtmpO8hF7i\downloaded_packages
+#>  C:\Users\Taka\AppData\Local\Temp\Rtmp6XPaVs\downloaded_packages
 #> ── R CMD build ─────────────────────────────────────────────────────────────────
-#>          checking for file 'C:\Users\Taka\AppData\Local\Temp\RtmpO8hF7i\remotes1184611d73b9\haowangtaka-bis620.2023-bd63a1a/DESCRIPTION' ...     checking for file 'C:\Users\Taka\AppData\Local\Temp\RtmpO8hF7i\remotes1184611d73b9\haowangtaka-bis620.2023-bd63a1a/DESCRIPTION' ...   ✔  checking for file 'C:\Users\Taka\AppData\Local\Temp\RtmpO8hF7i\remotes1184611d73b9\haowangtaka-bis620.2023-bd63a1a/DESCRIPTION'
-#>       ─  preparing 'bis620.2023': (410ms)
+#>          checking for file 'C:\Users\Taka\AppData\Local\Temp\Rtmp6XPaVs\remotes266c436a75ca\haowangtaka-bis620.2023-96dc7d9/DESCRIPTION' ...     checking for file 'C:\Users\Taka\AppData\Local\Temp\Rtmp6XPaVs\remotes266c436a75ca\haowangtaka-bis620.2023-96dc7d9/DESCRIPTION' ...   ✔  checking for file 'C:\Users\Taka\AppData\Local\Temp\Rtmp6XPaVs\remotes266c436a75ca\haowangtaka-bis620.2023-96dc7d9/DESCRIPTION'
+#>       ─  preparing 'bis620.2023': (359ms)
 #>    checking DESCRIPTION meta-information ...     checking DESCRIPTION meta-information ...   ✔  checking DESCRIPTION meta-information
 #>       ─  checking for LF line-endings in source and make files and shell scripts
 #>       ─  checking for empty or unneeded directories
 #>       ─  building 'bis620.2023_0.1.0.tar.gz'
 #>      
 #> 
-#> Installing package into 'C:/Users/Taka/AppData/Local/Temp/RtmpKAuL3d/temp_libpath22a866d11ef2'
+#> Installing package into 'C:/Users/Taka/AppData/Local/Temp/RtmpKAuL3d/temp_libpath22a8108408c'
 #> (as 'lib' is unspecified)
 ```
 

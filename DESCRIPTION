@@ -26,7 +26,10 @@ Imports:
   shiny,
   rlang,
   patchwork,
-  xts
+  xts,
+  forecast,
+  tseries,
+  strucchange
 Suggests: 
     knitr,
     rmarkdown,
