@@ -1,0 +1,370 @@
+---
+title: "Time Series Analysis for Clinical Studies"
+author: "Yixiao Chen"
+date: "2023-12-19"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Background and Motivation
+
+The ability to predict the number of clinical trials that will be conducted each year is invaluable for pharmaceutical companies, healthcare providers, and regulatory bodies. Accurate forecasts ensure that adequate resources are allocated, regulatory guidelines are appropriately tailored, and the medical community is prepared for shifts in research focus. In this study, we explore the application of Trend-based models and ARIMA (AutoRegressive Intergrated Moving Average) models to detect underlying patterns and predict future study counts in clinical trials. The motivation for this study lies in its potential to streamline clinical trial management and enhance the strategic planning of medical research.
+
+# Research Question
+
+The central inquiry of this project is to determine the trends in the annual count of clinical trials and develop a predictive model that can accurately forecast these numbers. This research seeks to answer two primary questions: First, can we identify significant shifts in clinical trial activity over time using trend-based model? Second, how well can ARIMA models, which are traditionally used for time series forecasting, predict the future count of clinical trials? By addressing these questions, the research aims to contribute to the efficient planning and execution of future clinical studies, which is critical for advancing medical innovation and patient care.
+
+# Data Cleaning and Exploration
+
+In the following analysis, we will use the `yearly_count` table from AACT database that showing the number of actual studies that are started every year after 1990 (This dataset is generated from studies dataset). 
+
+```{r}
+library(bis620.2023)
+library(lubridate)
+library(dplyr)
+library(ggplot2)
+library(purrr)
+library(tidyr)
+library(patchwork)
+library(forecast)
+library(tseries)
+```
+
+## Data Inspection
+
+The table `countries` has 467704 rows and 3 columns. The `nct_id` column indicates the nct_id of the study that is conducted; the `start_month_year` column shows the month and year of study, `start_date_type` are showing what the start status of the project. There are some missing value (NA) in both the start_month_year and start_date_type columns.
+
+```{r}
+complete_studies = studies_all %>% select('nct_id', 'start_date', 'start_date_type')
+```
+
+```{r}
+complete_studies |> is.na() |> colSums()
+```
+
+## Data Cleaning
+The data cleaning process includes dropping rows that do not have actually started (either estimated or NA) and those rows that without specfiying the start date, selecting the appropriate time ranges(time series of number of studies after 2000 (we believe this is an appropriate number for our forecasting for 2023 and 2024)), and employ function in dplyr to generate the target dataset. Note that although we have data about 2023, we chose to neglect it due to the incompleteness collection of the data for the year. For the sake of forecasting, we separate the last two years as test dataset to evaluate the performance of each model.
+
+```{r}
+df <- complete_studies [complete_studies$start_date_type == 'Actual', ]
+# Convert the 'start_date' column to datetime
+df$start_date <- as.Date(df$start_date, format="%Y-%m-%d")
+
+# Remove NAs and filter out dates before 2000 or after 2022
+df <- df[!is.na(df$start_date) & as.numeric(format(df$start_date, "%Y")) <= 2022 &as.numeric(format(df$start_date, "%Y")) >= 2000, ]
+
+# Extract year from 'start_date'
+df$year <- as.numeric(format(df$start_date, "%Y"))
+
+# Now group by 'year' and count the occurrences
+yearly_count <- as.data.frame(table(df$year))
+# Rename the columns appropriately
+colnames(yearly_count) <- c('Year', 'Study_Count')
+yearly_count$Year <- as.numeric(as.character(yearly_count$Year))
+yearly_count
+```
+
+## Data Visualization
+
+In this visualization section, I choose to present two plots for the purpose of exploratory data analysis (EDA) : Time Series Line Plot and Study Count Histogram. The Time Series Line Plot shows us the trend of clinical trial study counts over time, whereas allow us to visualize the distribution of study counts across different years. We will then leverage the result of EDA to explain the rationale of employing trend-based models and ARIMA.
+
+### Time Series Line Plot
+```{r}
+ggplot(yearly_count, aes(x=Year, y=Study_Count)) +
+  geom_line() +
+  scale_y_continuous(limits=c(0, 30000), breaks=seq(0, 30000, by=5000)) + 
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  labs(title="Time Series of Clinical Trial Study Counts",
+       x="Year",
+       y="Study Count")
+```
+
+From the graph, it appears that there is a noticeable upward trend, particularly in recent years, indicating an increase in the number of studies conducted. This increasing trend can affect the forecasting plan by suggesting that trend-based model and ARIMA could capture the essential component of this time series. Specifically, we will consider a log-trend model because of the shape of this time series curve. 
+
+### Study Counts Histogram
+```{r}
+ggplot(yearly_count, aes(x=Study_Count)) +
+  geom_histogram(bins=30, fill="blue", color="black") +
+  theme_minimal() +
+  labs(title="Histogram of Clinical Trial Study Counts",
+       x="Study Count",
+       y="Frequency")
+```
+
+The distribution of study count actually informed us the possibility of break in trend and the occurrence of some outliers. ARIMA and trend-based model is somewhat sensitive to outliers. We would take them into consideration while we proceed with caveat in this study.
+
+# Analysis
+
+In this section, we will present our methodology of employment trend-based models and ARIMA models thoroughly. 
+
+## Train-Test Split
+
+```{r}
+split_row <- nrow(yearly_count) - 2
+training_set <- yearly_count[1:split_row, ]
+test_set <- yearly_count[(split_row + 1):nrow(yearly_count), ]
+```
+
+```{r}
+training_set
+```
+
+```{r}
+test_set
+```
+## Evaluation Metrics
+
+We chose to report MAPE and MSE for each models since we care the absolute magnitude we miss and we might want to penalize more when the forecast value is way off.
+
+## Trend-based Model
+
+Trend-based models are designed to capture and forecast systematic long-term movements in time series data. The model incorporates this trend to predict future values by extrapolating the established direction of the data. In this study, we specifically focus on log-trend model due to the shape of time series curve we observed.
+
+```{r}
+library(dplyr)
+trend_train <- data.frame(training_set)
+trend_train$log_study_count <- log(trend_train$Study_Count)
+
+# Creating a time variable
+trend_train$Time <- seq_along(trend_train$log_study_count)
+
+# Fitting a linear model to the log-transformed study counts against time
+log_trend_model <- lm(log_study_count ~ Time, data = trend_train)
+summary(log_trend_model)
+```
+
+We observe that both coefficient are statistically significance, and we could choose to fit a quadratic model to see whether or not the second order terms help.
+
+```{r}
+# Add a second-order term for Year
+trend_train$Time2 <- trend_train$Time^2
+
+# Fit a second-order polynomial model (quadratic model)
+log_trend_model_2 <- lm(log_study_count ~ Time + Time2, data = trend_train)
+
+# Summary of the model to check the coefficients and other statistics
+summary(log_trend_model_2)
+```
+
+We observe that the coefficients of the second order term are not statistically significant, and we stick with the previous model to make test forecast.
+
+```{r}
+# Forecasting the next two periods
+# Create a new data frame for the future time periods
+future_times <- data.frame(Time = max(trend_train$Time) + c(1, 2))
+
+# Predict on the future times using the model
+log_forecasts <- predict(log_trend_model, newdata = future_times, interval = "confidence")
+
+# Back-transform forecasts to the original scale
+forecasts <- exp(log_forecasts[, "fit"])
+trend_forecasts_df <- data.frame(Year = c(2021, 2022), Forecast = forecasts)
+
+# Calculate the errors
+errors <- test_set$Study_Count - forecasts
+
+# Mean Absolute Error (MAE)
+mae <- mean(abs(errors))
+
+# Mean Squared Error (MSE)
+mse <- mean(errors^2)
+cat("Mean Squared Error (MSE):", mse, "\n")
+cat("Mean Absolute Error (MAE):", mae, "\n")
+```
+
+
+```{r}
+p <- ggplot() +
+  geom_line(data = trend_train, aes(x = Year, y = Study_Count, color = "Historical Data")) +
+  geom_point(data = test_set, aes(x = Year, y = Study_Count, color = "Actual Values"), size = 3) +
+  geom_point(data = trend_forecasts_df, aes(x = Year, y = Forecast, color = "Forecasted Values"), size = 3) +
+  # Define the colors and the legend
+  scale_color_manual(values = c("Historical Data" = "blue", "Actual Values" = "green", "Forecasted Values" = "red")) +
+  # Add titles and labels
+  labs(title = "Log Trend Model for Clinical Trial Study Count Analysis",
+       x = "Year",
+       y = "Study Count") +
+  theme_minimal() +
+  theme(legend.position = "bottom")
+
+p
+```
+
+Based on the plot and metrics, it seems like the trend-based model did poorly in actually capture the patterns. Hence, we consider a break in trend model.
+
+## Break in Trend
+A break in a trend model, often referred to as a structural break or change point, is an unexpected shift in a time series that can lead to significant changes in the level or trend of the series.
+
+```{r}
+library(strucchange)
+basic_trend_model <- lm(Study_Count ~ Time, data = trend_train)
+breakpoints_model <- breakpoints(Study_Count ~ Time, data = trend_train)
+plot(breakpoints_model)
+breaks <- breakpoints(breakpoints_model)
+```
+
+Based on the RSS plot, we chose to set break point accordingly and separate out the last_segment.
+
+```{r}
+last_segement <- trend_train[trend_train$Time > breaks$breakpoints[2], ]
+break_in_trend_model <- lm(Study_Count ~ Time, data = last_segement)
+summary(break_in_trend_model)
+```
+
+```{r}
+# Forecasting the next two periods
+# Create a new data frame for the future time periods
+future_times <- data.frame(Time = max(trend_train$Time) + c(1, 2))
+
+# Predict on the future times using the model
+break_in_trend_forecasts <- predict(break_in_trend_model, newdata = future_times)
+
+trend_forecasts_df <- data.frame(Year = c(2021, 2022), Forecast = break_in_trend_forecasts)
+
+# Calculate the errors
+errors <- test_set$Study_Count -break_in_trend_forecasts
+
+# Mean Absolute Error (MAE)
+mae <- mean(abs(errors))
+
+# Mean Squared Error (MSE)
+mse <- mean(errors^2)
+cat("Mean Squared Error (MSE):", mse, "\n")
+cat("Mean Absolute Error (MAE):", mae, "\n")
+```
+
+```{r}
+p <- ggplot() +
+  geom_line(data = trend_train, aes(x = Year, y = Study_Count, color = "Historical Data")) +
+  geom_point(data = test_set, aes(x = Year, y = Study_Count, color = "Actual Values"), size = 3) +
+  geom_point(data = trend_forecasts_df, aes(x = Year, y = break_in_trend_forecasts, color = "Forecasted Values"), size = 3) +
+  # Define the colors and the legend
+  scale_color_manual(values = c("Historical Data" = "blue", "Actual Values" = "green", "Forecasted Values" = "red")) +
+  # Add titles and labels
+  labs(title = "Break in Trend Model for Clinical Trial Study Count Analysis",
+       x = "Year",
+       y = "Study Count") +
+  theme_minimal() +
+  theme(legend.position = "bottom")
+
+p
+```
+
+It seems that the break in trend model did much better than the log-trend model, and we would further explore using more complex time series model for this study.
+
+## ARIMA Models
+
+ARIMA stands for AutoRegressive Integrated Moving Average. It is a class of models that explains a given time series based on its own past values, meaning its lags and the lagged forecast errors, so that equation can be used to forecast future values. An ARIMA model has three components: AR (autoregression), I (integration), which involves differencing the data to make it stationary, and MA (moving average). This model is versatile and widely used for time series forecasting when the data are stationary or can be made stationary through differencing. It can handle complex and subtle stochastic structures in the data.
+
+To indentify the order we conduct ADF test, and look at the PACF and ACF plot.
+
+```{r}
+library(tseries)
+adf_result <- adf.test(training_set$Study_Count, alternative = "stationary")
+adf_result
+```
+```{r}
+differenced_series <- diff(training_set$Study_Count)
+adf_result <- adf.test(differenced_series, alternative = "stationary")
+adf_result
+```
+
+```{r}
+second_differenced_series <- diff(diff(training_set$Study_Count))
+adf_result <- adf.test(second_differenced_series, alternative = "stationary")
+adf_result
+```
+
+We found that the second difference of time series is stationary and the order of I is 2.
+
+```{r}
+pacf(second_differenced_series)
+```
+```{r}
+acf(second_differenced_series)
+```
+Based on the PACF and ACF plot, we chose to employ ARIMA(0, 2, 1).
+
+```{r}
+arima_model <- arima(training_set$Study_Count, order=c(0,2,1))
+arima_model
+```
+
+```{r}
+tsdiag(arima_model)
+```
+Based on the p values for Ljung-Box Statistic, our model is adequately fitted.
+
+```{r}
+forecast_values <- forecast(arima_model, h=2)
+arima_forecasts_df <- data.frame(Year = c(2021, 2022), Forecast = forecast_values$mean)
+
+# Calculate the errors
+errors <- test_set$Study_Count - forecast_values$mean
+
+# Mean Absolute Error (MAE)
+mae <- mean(abs(errors))
+
+# Mean Squared Error (MSE)
+mse <- mean(errors^2)
+cat("Mean Squared Error (MSE):", mse, "\n")
+cat("Mean Absolute Error (MAE):", mae, "\n")
+```
+
+```{r}
+p <- ggplot() +
+  geom_line(data = training_set, aes(x = Year, y = Study_Count, color = "Historical Data")) +
+  geom_point(data = test_set, aes(x = Year, y = Study_Count, color = "Actual Values"), size = 3) +
+  geom_point(data = arima_forecasts_df, aes(x = Year, y = forecast_values$mean, color = "Forecasted Values"), size = 3) +
+  # Define the colors and the legend
+  scale_color_manual(values = c("Historical Data" = "blue", "Actual Values" = "green", "Forecasted Values" = "red")) +
+  # Add titles and labels
+  labs(title = "ARIMA Model for Clinical Trial Study Count Analysis",
+       x = "Year",
+       y = "Study Count") +
+  theme_minimal() +
+  theme(legend.position = "bottom")
+
+p
+```
+
+Based on the graph and evaluation metrics, ARIMA model peform comparatively well than the trend-based model. In our understanding, this could be the result from that ARIMA models explicitly account for non-stationarity in the data through differencing (the 'I' part of ARIMA), whereas basic trend models may not adequately handle non-stationary data that often result in spurious regressions. In addition to that, ARIMA models can capture correlations in the time series data at different lags through the AR and MA components. This flexibility allows ARIMA to model a wide range of time series behaviors that a simple trend model might miss, such as short-term fluctuations and seasonal variations. 
+
+Hence, we utilize it to make forecast for the 2023 and 2024 after combining training and test data.
+
+```{r}
+arima_model <- arima(yearly_count$Study_Count, order=c(0,2,1))
+arima_model
+forecast_values <- forecast(arima_model, h=2)
+arima_forecasts_df <- data.frame(Year = c(2023, 2024), Forecast = forecast_values$mean)
+```
+
+```{r}
+p <- ggplot() +
+  geom_line(data = yearly_count, aes(x = Year, y = Study_Count, color = "Historical Data")) +
+  geom_point(data = arima_forecasts_df, aes(x = Year, y = forecast_values$mean, color = "Forecasted Values"), size = 3) +
+  # Add the forecast interval using geom_ribbon
+  geom_ribbon(data = arima_forecasts_df, aes(x = Year, ymin = forecast_values$lower[, 2], ymax = forecast_values$upper[, 2], fill = "95% CI"), alpha = 0.2) +
+  scale_color_manual(values = c("Historical Data" = "blue", "Forecasted Values" = "red")) +
+  scale_fill_manual(values = c("95% CI" = "orange")) +
+  labs(title = "ARIMA Model for Clinical Trial Study Count Analysis",
+       x = "Year",
+       y = "Study Count") +
+  theme_minimal() +
+  theme(legend.position = "bottom")
+
+# Display the plot
+print(p)
+
+```
+
+# Conclusion and Discussion
+
+Based on our study, the ARIMA model provided a better fit for the time series data of clinical trial study counts compared to the trend-based model. This was evidenced by improved forecast accuracy metrics, i.e. lower Mean Squared Error (MSE) and Mean Absolute Error (MAE). After we identify the best model, we present the point forecast and interval forecast for number of study will be started in 2023 and 2024. Despite that ARIMA model performs better than trend-based models, this is still our first step towards tackling this forecasting problem, and we acknowledge some limitations of using this approach. For example, ARIMA model is sensitive to outliers and this could be observe a little bit by how the forecasting trend shifting after a spike in 2021. Therefore, further refinement and improvement of the model need to be further explored to better understanding this time series and make accurate forecast.
+
+
+
