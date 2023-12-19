@@ -1080,8 +1080,8 @@ dataset. Our focus is to understand the trends and patterns over time in
 the clinical trial data.</p>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">studies_all</span><span class="op">)</span></span></code></pre></div>
-<p>The first step involves loading the dataset ‘studies_all’. This
-dataset contains comprehensive information about various clinical
+<p>The first step involves loading the dataset <code>studies_all</code>.
+This dataset contains comprehensive information about various clinical
 trials, especially the time information, which is crucial for our
 analysis.</p>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
@@ -1089,24 +1089,24 @@ analysis.</p>
 <span></span>
 <span><span class="co"># Perform the inner join with d</span></span>
 <span><span class="va">d_longitudinal</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">inner_join</a></span><span class="op">(</span><span class="va">d</span>, <span class="va">studies_all_selected</span>, by <span class="op">=</span> <span class="st">"nct_id"</span><span class="op">)</span></span></code></pre></div>
-<p>Here, we select the necessary columns from ‘studies_all’,
-specifically ‘nct_id’ and ‘last_update_submitted_qc_date’. Note that
-‘last_update_submitted_qc_date’ contains the date when the last update
-or modification to a clinical trial’s data or documentation was
-submitted for quality control (QC) review or assessment. It signifies a
-crucial timestamp in the clinical trial management process, indicating
-when the trial’s records were last revised and prepared for quality
-assurance checks. We then perform an inner join with another dataset
-‘d’. We aim to merge relevant data from both datasets based on the
-‘nct_id’, which is the unique identifier for each clinical trial. Now we
-will get time information for each study.</p>
+<p>Here, we select the necessary columns from <code>studies_all</code>,
+specifically <code>nct_id</code> and ‘last_update_submitted_qc_date’.
+Note that ‘last_update_submitted_qc_date’ contains the date when the
+last update or modification to a clinical trial’s data or documentation
+was submitted for quality control (QC) review or assessment. It
+signifies a crucial timestamp in the clinical trial management process,
+indicating when the trial’s records were last revised and prepared for
+quality assurance checks. We then perform an inner join with another
+dataset ‘d’. We aim to merge relevant data from both datasets based on
+the <code>nct_id</code>, which is the unique identifier for each
+clinical trial. Now we will get time information for each study.</p>
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">any_na_in_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/any.html" class="external-link">any</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">d_longitudinal</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">any_na_in_data</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] FALSE</span></span></code></pre></div>
 <p>We then check for missing values in our merged dataset,
-‘d_longitudinal’. The above code checks for any NA (Not Available)
-values in the dataset.</p>
+<code>d_longitudinal</code>. The above code checks for any NA (Not
+Available) values in the dataset.</p>
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">d_longitudinal</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 12,314 × 97</span></span></span>
@@ -1138,10 +1138,10 @@ subsequent statistical analysis more interpretable and meaningful.</p>
 <code class="sourceCode R"><span><span class="va">d_longitudinal</span> <span class="op">&lt;-</span> <span class="va">d_longitudinal</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>original_p_value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="va">p_value</span><span class="op">)</span> <span class="op">/</span> <span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="va">p_value</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>In our analysis, we first converted ‘last_update_submitted_qc_date’
 into a datetime format, essential for accurate time-series examination.
-Following this, we plotted the ‘original_p_value’ against time to
-visually identify any significant trends. Our approach involved using a
-linear regression model, with time as our independent variable and
-‘original_p_value’ as the dependent one.</p>
+Following this, we plotted the <code>original_p_value</code> against
+time to visually identify any significant trends. Our approach involved
+using a linear regression model, with time as our independent variable
+and <code>original_p_value</code> as the dependent one.</p>
 <div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Convert dates to numerical values</span></span>
 <span><span class="va">d_longitudinal</span><span class="op">$</span><span class="va">last_update_submitted_qc_date</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/zoo/man/yearmon.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="va">d_longitudinal</span><span class="op">$</span><span class="va">last_update_submitted_qc_date</span><span class="op">)</span></span>
@@ -1184,33 +1184,35 @@ linear regression model, with time as our independent variable and
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="research-significance-analysis_files/figure-html/unnamed-chunk-32-1.png" width="700"></p>
 <p>This model revealed a small yet statistically significant trend: a
-gradual increase in the ‘original_p_value’ over time. It’s important to
-note that the increase is modest, largely due to the inherently small
-size of the p-value. The exceptionally low p-value for the slope,
-significantly under <span class="math inline">\(0.05\)</span>, validates
-the trend’s statistical significance. However, the low coefficient of
-determination suggests that time only explains a minor part of the
-variance in the ‘original_p_value’. In summary, our analysis indicates a
-discernible, though minor, upward trend in the ‘original_p_value’ over
-time. This trend, while statistically valid, contributes to only a small
-portion of the observed changes in our dataset.</p>
-<p>This gradual increase in the ‘original_p_value’ over time suggests
-that the studies we from 2010 to 2022 are showing a trend towards less
-statistically significant results as time progresses. This could imply a
-range of possibilities, such as changes in research methodology,
-variations in study quality, or shifts in the underlying phenomena being
-studied. It’s a crucial insight for researchers and policy makers, as it
-highlights the need for a closer examination of why these changes are
-occurring. Understanding this trend could lead to more robust research
-practices and better-informed decision-making in the future.</p>
+gradual increase in the <code>original_p_value</code> over time. It’s
+important to note that the increase is modest, largely due to the
+inherently small size of the p-value. The exceptionally low p-value for
+the slope, significantly under <span class="math inline">\(0.05\)</span>, validates the trend’s statistical
+significance. However, the low coefficient of determination suggests
+that time only explains a minor part of the variance in the
+<code>original_p_value</code>. In summary, our analysis indicates a
+discernible, though minor, upward trend in the
+<code>original_p_value</code> over time. This trend, while statistically
+valid, contributes to only a small portion of the observed changes in
+our dataset.</p>
+<p>This gradual increase in the <code>original_p_value</code> over time
+suggests that the studies we from 2010 to 2022 are showing a trend
+towards less statistically significant results as time progresses. This
+could imply a range of possibilities, such as changes in research
+methodology, variations in study quality, or shifts in the underlying
+phenomena being studied. It’s a crucial insight for researchers and
+policy makers, as it highlights the need for a closer examination of why
+these changes are occurring. Understanding this trend could lead to more
+robust research practices and better-informed decision-making in the
+future.</p>
 <p>Then we plot the decomposed components of our time series data,
 several insights emerge, further enhancing our understanding of the
-‘original_p_value’ trends over time.</p>
+<code>original_p_value</code> trends over time.</p>
 <div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">d_longitudinal</span><span class="op">$</span><span class="va">last_update_submitted_qc_date</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://lubridate.tidyverse.org/reference/ymd.html" class="external-link">ymd</a></span><span class="op">(</span><span class="va">d_longitudinal</span><span class="op">$</span><span class="va">last_update_submitted_qc_date</span><span class="op">)</span></span>
 <span><span class="va">d_longitudinal</span> <span class="op">&lt;-</span> <span class="va">d_longitudinal</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="va">last_update_submitted_qc_date</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Group data by month and calculate the mean of 'original_p_value'</span></span>
+<span><span class="co"># Group data by month and calculate the mean of `original_p_value`</span></span>
 <span><span class="va">monthly_data</span> <span class="op">&lt;-</span> <span class="va">d_longitudinal</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span>month <span class="op">=</span> <span class="fu"><a href="https://lubridate.tidyverse.org/reference/round_date.html" class="external-link">floor_date</a></span><span class="op">(</span><span class="va">last_update_submitted_qc_date</span>, <span class="st">"month"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize</a></span><span class="op">(</span>original_p_value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">original_p_value</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
@@ -1226,13 +1228,13 @@ several insights emerge, further enhancing our understanding of the
 <p><img src="research-significance-analysis_files/figure-html/unnamed-chunk-33-1.png" width="576"></p>
 <p><strong>Trend Component Analysis</strong>: The trend component of the
 graph, which represents the long-term movement in the
-‘original_p_value’, shows a small positive slope. This reinforces our
-earlier findings of a gradual increase in the p-value over time. The
-consistent yet modest upward trend in the p-values suggests a decrease
-in the statistical significance of the studies over the examined period.
-This could be indicative of evolving research dynamics, such as changes
-in research methodologies or variations in the domains being
-studied.</p>
+<code>original_p_value</code>, shows a small positive slope. This aligns
+with our earlier findings of a gradual increase in the p-value over
+time. The consistent yet modest upward trend in the p-values suggests a
+decrease in the statistical significance of the studies over the
+examined period. This could be indicative of evolving research dynamics,
+such as changes in research methodologies or variations in the domains
+being studied.</p>
 <p><strong>Seasonal Component Insights</strong>: The seasonal component
 of the data reveals calendar-related fluctuations in the p-values. The
 volatility observed here is particularly intriguing. It suggests that
@@ -1278,13 +1280,13 @@ conducted. But there is relations between the significance of the
 outcomes and the number of facility involved.</p>
 <p>In addition to our primary findings, our time series analysis using a
 linear regression model unveiled a noteworthy trend: a gradual increase
-in ‘original_p_value’ over time. This trend, while statistically
-significant with a p-value for the slope below 0.05, displayed a
-relatively modest effect size, as indicated by the low coefficient of
-determination. This observed trend implies several potential
-contributing factors, including shifts in research methodologies,
-variations in study quality, or changes in the phenomena under
-examination. These findings emphasize the importance of conducting
+in <code>original_p_value</code> over time. This trend, while
+statistically significant with a p-value for the slope below 0.05,
+displayed a relatively modest effect size, as indicated by the low
+coefficient of determination. This observed trend implies several
+potential contributing factors, including shifts in research
+methodologies, variations in study quality, or changes in the phenomena
+under examination. These findings emphasize the importance of conducting
 further investigations to delve into the underlying causes, providing
 valuable insights for both researchers and policymakers. Furthermore,
 when we dissected the time series data, we gained additional insights.
