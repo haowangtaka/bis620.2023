@@ -1,7 +1,7 @@
 ---
-title: "Is the significance of the outcomes of clinical trials related to where and how they are conducted?"
+title: "Evaluating the Determinants and Evolution of Clinical Trial Outcome Significance"
 output: rmarkdown::html_vignette
-author: Qifan Zhang qz277
+author: Qifan Zhang qz277 Hao Wang hw575
 format:
   html:
     self-contained: true
@@ -19,14 +19,19 @@ knitr::opts_chunk$set(
 ```
 
 # Background and Motivation
+In this project, our aim is two-fold: firstly, to explore the relationships between the significance of clinical trial outcomes and factors such as the countries where these trials are conducted and the number of facilities involved; and secondly, to investigate the evolution of clinical trial outcome significance over time.
 
-In this project, we aim to explore the relations between the significance of the outcomes of clinical trials and some factors such as countries that the trials are conducted and the number of facility involved. Although clinical trials are pivotal in shaping medical practices and policies and is a well-organized way to understand a newly-proposed medical methods, conducting complete and comprehensive clinical trials often requires sufficient funds and experimental samples. So, intuitively, we believe that those significant results mostly come from developed hospitals or research centers with more resources. To further investigate this question, we utilize the data from the Aggregate Analysis of ClinicalTrials.gov (AACT) and study how geographical locations and the scale of facilities may affect the outcomes of clinical trials.
+Clinical trials are critical in shaping medical practices and policies and are the cornerstone for evaluating newly proposed medical methods. Conducting comprehensive clinical trials often requires ample funding and a broad sample base. Intuitively, one might hypothesize that more significant results often emerge from well-resourced hospitals or research centers in developed regions. To delve into this hypothesis and extend our inquiry, we utilize data from the Aggregate Analysis of ClinicalTrials.gov (AACT). This allows us to study not only how geographical locations and the scale of facilities might affect trial outcomes but also how the significance of these outcomes has evolved over time.
 
-We believe that the insights derived from this study could be instrumental for stakeholders in clinical research. Understanding the influence of locations and the collaboration level, which we think are some "surrogate" variables of research resources, enables policy-makers to better allocate relevant funds and resources and thus ensures more reliable and generalizable results. This can lead to more informed regulatory decisions and better health outcomes for patients worldwide.
+This extended scope of research is particularly pertinent in light of recent shifts in global health landscapes and the advent of new medical technologies and methodologies. By incorporating a time series analysis, we can identify trends and patterns in the data, offering a dynamic perspective on the impact of location and facility scale on clinical trial outcomes.
+
+The insights derived from this comprehensive study could be instrumental for stakeholders in clinical research. Understanding the influence of location, collaboration level, and their changes over time—factors we consider as "surrogate" variables of research resources—empowers policy-makers to allocate funds and resources more effectively. This, in turn, ensures more reliable and generalizable results, leading to more informed regulatory decisions and improved health outcomes globally. Our study aims to contribute to this critical discourse by providing a nuanced and temporal understanding of factors influencing the efficacy of clinical trials.
 
 # Research Question
 
-In this project, we aim to answer the question whether there are significant relations between the significance of the outcomes of clinical trials and factors such as countries that the trials are conducted and the number of facility involved. We choose linear regression model to analyze this question and pick the p-values of each clinical trials as the response variable.
+In this project, our primary objective is to explore potential associations between the significance of clinical trial outcomes and various factors, including the countries where these trials are conducted and the number of facilities involved. To accomplish this, we have decided to employ a linear regression model as our analytical tool, using the p-values derived from each clinical trial as the response variable.
+
+Furthermore, we aim to gain insights into the broader trends in the significance of clinical trial outcomes by conducting preliminary time series analysis. This will allow us to examine how the significance of these outcomes has evolved over time.
 
 # Data Cleaning and Exploration
 
@@ -40,6 +45,7 @@ library(ggplot2)
 library(purrr)
 library(tidyr)
 library(patchwork)
+library(xts)
 ```
 
 ## Data Inspection
@@ -297,9 +303,15 @@ In this part, we fit a model with no countries variable. From the summary table,
 model <- lm(p_value ~ ., data = d |> select(p_value, number_of_facilities, actual_duration))
 summary(model)
 ```
+## Time Series Analysis
+
+In this section, we delve into the time series analysis of our dataset. Our focus is to understand the trends and patterns over time in the clinical trial data.
+
 ```{r}
 data(studies_all)
 ```
+
+The first step involves loading the dataset 'studies_all'. This dataset contains comprehensive information about various clinical trials, especially the time information, which is crucial for our analysis.
 
 ```{r}
 studies_all_selected <- select(studies_all, nct_id, last_update_submitted_qc_date)
@@ -308,14 +320,87 @@ studies_all_selected <- select(studies_all, nct_id, last_update_submitted_qc_dat
 d_longitudinal <- inner_join(d, studies_all_selected, by = "nct_id")
 ```
 
+Here, we select the necessary columns from 'studies_all', specifically 'nct_id' and 'last_update_submitted_qc_date'. Note that 'last_update_submitted_qc_date' contains the date when the last update or modification to a clinical trial's data or documentation was submitted for quality control (QC) review or assessment. It signifies a crucial timestamp in the clinical trial management process, indicating when the trial's records were last revised and prepared for quality assurance checks. We then perform an inner join with another dataset 'd'. We aim to merge relevant data from both datasets based on the 'nct_id', which is the unique identifier for each clinical trial. Now we will get time information for each study.
+
 ```{r}
 any_na_in_data <- any(is.na(d_longitudinal))
 print(any_na_in_data)
 ```
-```{r}
 
+We then check for missing values in our merged dataset, 'd_longitudinal'. The above code checks for any NA (Not Available) values in the dataset.
+
+```{r}
+d_longitudinal
 ```
+
+The final step in our data preparation involves recovering the p_value column to the original value without any transformation. We apply a mathematical transformation to the p-values, converting them into their original scale. This step is crucial for making our subsequent statistical analysis more interpretable and meaningful.
+
+```{r}
+d_longitudinal <- d_longitudinal |> mutate(original_p_value = exp(p_value) / (1 + exp(p_value)))
+```
+
+In our analysis, we first converted 'last_update_submitted_qc_date' into a datetime format, essential for accurate time-series examination. Following this, we plotted the 'original_p_value' against time to visually identify any significant trends. Our approach involved using a linear regression model, with time as our independent variable and 'original_p_value' as the dependent one.
+
+```{r}
+# Convert dates to numerical values
+d_longitudinal$last_update_submitted_qc_date <- as.Date(d_longitudinal$last_update_submitted_qc_date)
+d_longitudinal$days_since_first <- as.numeric(d_longitudinal$last_update_submitted_qc_date - min(d_longitudinal$last_update_submitted_qc_date))
+
+# Fit linear model
+model <- lm(original_p_value ~ days_since_first, data = d_longitudinal)
+
+# Summary of the model
+summary(model)
+
+# To plot the original_p_value over time
+ggplot(d_longitudinal, aes(x = last_update_submitted_qc_date, y = original_p_value)) +
+  geom_point(aes(color = "Original P-Value"), size = 2, alpha = 0.5) +
+  geom_smooth(method = "lm", formula = y ~ x, color = "red", se = FALSE) +
+  
+  labs(x = "Date", y = "Original P-Value",
+       title = "Original P-Value Over Time") +
+  
+  scale_color_manual(values = c("Original P-Value" = "blue")) +
+  
+  theme_minimal()
+```
+
+This model revealed a small yet statistically significant trend: a gradual increase in the 'original_p_value' over time. It's important to note that the increase is modest, largely due to the inherently small size of the p-value. The exceptionally low p-value for the slope, significantly under $0.05$, validates the trend's statistical significance. However, the low coefficient of determination suggests that time only explains a minor part of the variance in the 'original_p_value'. In summary, our analysis indicates a discernible, though minor, upward trend in the 'original_p_value' over time. This trend, while statistically valid, contributes to only a small portion of the observed changes in our dataset.
+
+This gradual increase in the 'original_p_value' over time suggests that the studies we from 2010 to 2022 are showing a trend towards less statistically significant results as time progresses. This could imply a range of possibilities, such as changes in research methodology, variations in study quality, or shifts in the underlying phenomena being studied. It's a crucial insight for researchers and policy makers, as it highlights the need for a closer examination of why these changes are occurring. Understanding this trend could lead to more robust research practices and better-informed decision-making in the future.
+
+Then we plot the decomposed components of our time series data, several insights emerge, further enhancing our understanding of the 'original_p_value' trends over time.
+
+```{r, fig.width=6, fig.height=6}
+d_longitudinal$last_update_submitted_qc_date <- ymd(d_longitudinal$last_update_submitted_qc_date)
+d_longitudinal <- d_longitudinal %>% arrange(last_update_submitted_qc_date)
+
+# Group data by month and calculate the mean of 'original_p_value'
+monthly_data <- d_longitudinal %>%
+  group_by(month = floor_date(last_update_submitted_qc_date, "month")) %>%
+  summarize(original_p_value = mean(original_p_value, na.rm = TRUE))
+
+# Convert to xts for decomposition
+ts_data <- ts(monthly_data$original_p_value, frequency = 12)
+
+# Decompose the time series (additive model)
+decomposed_data <- decompose(ts_data, type = "additive")
+
+# Plot the decomposed components
+plot(decomposed_data)
+```
+
+**Trend Component Analysis**:
+The trend component of the graph, which represents the long-term movement in the 'original_p_value', shows a small positive slope. This reinforces our earlier findings of a gradual increase in the p-value over time. The consistent yet modest upward trend in the p-values suggests a decrease in the statistical significance of the studies over the examined period. This could be indicative of evolving research dynamics, such as changes in research methodologies or variations in the domains being studied.
+
+**Seasonal Component Insights**:
+The seasonal component of the data reveals calendar-related fluctuations in the p-values. The volatility observed here is particularly intriguing. It suggests that there are specific times of the year when the studies tend to yield results with varying levels of significance. This could be due to a variety of factors, including cyclical research funding, academic calendars, or even seasonal variations in the phenomena being studied.
+
+**Random Component (Noise) Considerations**:
+The random component, which shows the residual fluctuations after accounting for trend and seasonal effects, appears erratic. This erratic nature indicates that there are additional factors influencing the p-values that our model has not accounted for. These could range from unforeseen external events impacting research outcomes to inherent randomness in the data collection processes.
 
 # Interpretation and Conclusions
 
 In this project, we aim to answer the question whether there are significant relations between the significance of the outcomes of clinical trials and factors such as countries that the trials are conducted and the number of facility involved. We conduct rich exploratory data analysis on our AACT dataset. The distribution of p value of the clinical trials is skewed toward 0, indicating that most clinical trials complete with a significant outcomes.In addition, our analysis on `number_of_facilities` indicates that the clinical trials have about 7 to 8 facilities involved on average. This also show the trend of collaboration in clinical trials. Furthermore, we fit three linear regression models and find that only United Kingdom and United States two countries have significant impact on the p values of clinical trials outcome and the clinical trials with the two countries involved tend to have less significant p values. Since the two countries get involve with a large portion of clinical trials, we interpret this result that it implies the fact that scientific discovery is a difficult process and tend to complete with a non-significant outcome. In addition, our model on `number_of_facilities` indicates that more collaboration can accelerate the process of scientific discovery. Thus there is not much significant relations between the significance of the outcomes of clinical trials and countries that the trials are conducted. But there is relations between the significance of the outcomes and the number of facility involved.
+
+In addition to our primary findings, our time series analysis using a linear regression model unveiled a noteworthy trend: a gradual increase in 'original_p_value' over time. This trend, while statistically significant with a p-value for the slope below 0.05, displayed a relatively modest effect size, as indicated by the low coefficient of determination. This observed trend implies several potential contributing factors, including shifts in research methodologies, variations in study quality, or changes in the phenomena under examination. These findings emphasize the importance of conducting further investigations to delve into the underlying causes, providing valuable insights for both researchers and policymakers. Furthermore, when we dissected the time series data, we gained additional insights. The trend component consistently exhibited a slight positive slope, reinforcing the notion of diminishing statistical significance over time. The seasonal component highlighted fluctuations in p-values linked to specific times of the year, potentially influenced by factors like research funding cycles, academic calendars, or seasonal variations in the phenomena being studied. Lastly, the random component pointed to erratic fluctuations, suggesting the presence of unaccounted factors impacting p-values, ranging from unforeseen external events to inherent variability in data collection practices.

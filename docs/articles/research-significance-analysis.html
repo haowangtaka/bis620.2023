@@ -5,13 +5,13 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Is the significance of the outcomes of clinical trials related to where and how they are conducted? • bis620.2023</title>
+<title>Evaluating the Determinants and Evolution of Clinical Trial Outcome Significance • bis620.2023</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
 <script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script><meta property="og:title" content="Is the significance of the outcomes of clinical trials related to where and how they are conducted?">
+<script src="../pkgdown.js"></script><meta property="og:title" content="Evaluating the Determinants and Evolution of Clinical Trial Outcome Significance">
 <meta property="og:description" content="bis620.2023">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -50,7 +50,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/research-significance-analysis.html">Is the significance of the outcomes of clinical trials related to where and how they are conducted?</a>
+      <a href="../articles/research-significance-analysis.html">Evaluating the Determinants and Evolution of Clinical Trial Outcome Significance</a>
     </li>
     <li>
       <a href="../articles/shiny-app-plots-demo.html">shiny-app-plots-demo</a>
@@ -74,10 +74,10 @@
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1 data-toc-skip>Is the significance of the outcomes of clinical
-trials related to where and how they are conducted?</h1>
+      <h1 data-toc-skip>Evaluating the Determinants and Evolution of
+Clinical Trial Outcome Significance</h1>
                         <h4 data-toc-skip class="author">Qifan Zhang
-qz277</h4>
+qz277 Hao Wang hw575</h4>
             
       
       
@@ -90,37 +90,53 @@ qz277</h4>
 <div class="section level2">
 <h2 id="background-and-motivation">Background and Motivation<a class="anchor" aria-label="anchor" href="#background-and-motivation"></a>
 </h2>
-<p>In this project, we aim to explore the relations between the
-significance of the outcomes of clinical trials and some factors such as
-countries that the trials are conducted and the number of facility
-involved. Although clinical trials are pivotal in shaping medical
-practices and policies and is a well-organized way to understand a
-newly-proposed medical methods, conducting complete and comprehensive
-clinical trials often requires sufficient funds and experimental
-samples. So, intuitively, we believe that those significant results
-mostly come from developed hospitals or research centers with more
-resources. To further investigate this question, we utilize the data
-from the Aggregate Analysis of ClinicalTrials.gov (AACT) and study how
-geographical locations and the scale of facilities may affect the
-outcomes of clinical trials.</p>
-<p>We believe that the insights derived from this study could be
+<p>In this project, our aim is two-fold: firstly, to explore the
+relationships between the significance of clinical trial outcomes and
+factors such as the countries where these trials are conducted and the
+number of facilities involved; and secondly, to investigate the
+evolution of clinical trial outcome significance over time.</p>
+<p>Clinical trials are critical in shaping medical practices and
+policies and are the cornerstone for evaluating newly proposed medical
+methods. Conducting comprehensive clinical trials often requires ample
+funding and a broad sample base. Intuitively, one might hypothesize that
+more significant results often emerge from well-resourced hospitals or
+research centers in developed regions. To delve into this hypothesis and
+extend our inquiry, we utilize data from the Aggregate Analysis of
+ClinicalTrials.gov (AACT). This allows us to study not only how
+geographical locations and the scale of facilities might affect trial
+outcomes but also how the significance of these outcomes has evolved
+over time.</p>
+<p>This extended scope of research is particularly pertinent in light of
+recent shifts in global health landscapes and the advent of new medical
+technologies and methodologies. By incorporating a time series analysis,
+we can identify trends and patterns in the data, offering a dynamic
+perspective on the impact of location and facility scale on clinical
+trial outcomes.</p>
+<p>The insights derived from this comprehensive study could be
 instrumental for stakeholders in clinical research. Understanding the
-influence of locations and the collaboration level, which we think are
-some “surrogate” variables of research resources, enables policy-makers
-to better allocate relevant funds and resources and thus ensures more
-reliable and generalizable results. This can lead to more informed
-regulatory decisions and better health outcomes for patients
-worldwide.</p>
+influence of location, collaboration level, and their changes over
+time—factors we consider as “surrogate” variables of research
+resources—empowers policy-makers to allocate funds and resources more
+effectively. This, in turn, ensures more reliable and generalizable
+results, leading to more informed regulatory decisions and improved
+health outcomes globally. Our study aims to contribute to this critical
+discourse by providing a nuanced and temporal understanding of factors
+influencing the efficacy of clinical trials.</p>
 </div>
 <div class="section level2">
 <h2 id="research-question">Research Question<a class="anchor" aria-label="anchor" href="#research-question"></a>
 </h2>
-<p>In this project, we aim to answer the question whether there are
-significant relations between the significance of the outcomes of
-clinical trials and factors such as countries that the trials are
-conducted and the number of facility involved. We choose linear
-regression model to analyze this question and pick the p-values of each
-clinical trials as the response variable.</p>
+<p>In this project, our primary objective is to explore potential
+associations between the significance of clinical trial outcomes and
+various factors, including the countries where these trials are
+conducted and the number of facilities involved. To accomplish this, we
+have decided to employ a linear regression model as our analytical tool,
+using the p-values derived from each clinical trial as the response
+variable.</p>
+<p>Furthermore, we aim to gain insights into the broader trends in the
+significance of clinical trial outcomes by conducting preliminary time
+series analysis. This will allow us to examine how the significance of
+these outcomes has evolved over time.</p>
 </div>
 <div class="section level2">
 <h2 id="data-cleaning-and-exploration">Data Cleaning and Exploration<a class="anchor" aria-label="anchor" href="#data-cleaning-and-exploration"></a>
@@ -150,7 +166,36 @@ from AACT database. For convenience, we download them and save them as
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://purrr.tidyverse.org/" class="external-link">purrr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org" class="external-link">tidyr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://patchwork.data-imaginist.com" class="external-link">patchwork</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: package 'patchwork' was built under R version 4.3.2</span></span></code></pre></div>
+<span><span class="co">#&gt; Warning: package 'patchwork' was built under R version 4.3.2</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/joshuaulrich/xts" class="external-link">xts</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: package 'xts' was built under R version 4.3.2</span></span>
+<span><span class="co">#&gt; Loading required package: zoo</span></span>
+<span><span class="co">#&gt; Warning: package 'zoo' was built under R version 4.3.2</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Attaching package: 'zoo'</span></span>
+<span><span class="co">#&gt; The following objects are masked from 'package:base':</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     as.Date, as.Date.numeric</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ######################### Warning from 'xts' package ##########################</span></span>
+<span><span class="co">#&gt; #                                                                             #</span></span>
+<span><span class="co">#&gt; # The dplyr lag() function breaks how base R's lag() function is supposed to  #</span></span>
+<span><span class="co">#&gt; # work, which breaks lag(my_xts). Calls to lag(my_xts) that you type or       #</span></span>
+<span><span class="co">#&gt; # source() into this session won't work correctly.                            #</span></span>
+<span><span class="co">#&gt; #                                                                             #</span></span>
+<span><span class="co">#&gt; # Use stats::lag() to make sure you're not using dplyr::lag(), or you can add #</span></span>
+<span><span class="co">#&gt; # conflictRules('dplyr', exclude = 'lag') to your .Rprofile to stop           #</span></span>
+<span><span class="co">#&gt; # dplyr from breaking base R's lag() function.                                #</span></span>
+<span><span class="co">#&gt; #                                                                             #</span></span>
+<span><span class="co">#&gt; # Code in packages is not affected. It's protected by R's namespace mechanism #</span></span>
+<span><span class="co">#&gt; # Set `options(xts.warn_dplyr_breaks_lag = FALSE)` to suppress this warning.  #</span></span>
+<span><span class="co">#&gt; #                                                                             #</span></span>
+<span><span class="co">#&gt; ###############################################################################</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Attaching package: 'xts'</span></span>
+<span><span class="co">#&gt; The following objects are masked from 'package:dplyr':</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     first, last</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="data-inspection">Data Inspection<a class="anchor" aria-label="anchor" href="#data-inspection"></a>
 </h3>
@@ -1027,6 +1072,183 @@ significant outcomes.</p>
 <span><span class="co">#&gt; Multiple R-squared:  0.01954,    Adjusted R-squared:  0.01938 </span></span>
 <span><span class="co">#&gt; F-statistic: 122.7 on 2 and 12311 DF,  p-value: &lt; 2.2e-16</span></span></code></pre></div>
 </div>
+<div class="section level3">
+<h3 id="time-series-analysis">Time Series Analysis<a class="anchor" aria-label="anchor" href="#time-series-analysis"></a>
+</h3>
+<p>In this section, we delve into the time series analysis of our
+dataset. Our focus is to understand the trends and patterns over time in
+the clinical trial data.</p>
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">studies_all</span><span class="op">)</span></span></code></pre></div>
+<p>The first step involves loading the dataset ‘studies_all’. This
+dataset contains comprehensive information about various clinical
+trials, especially the time information, which is crucial for our
+analysis.</p>
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">studies_all_selected</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">studies_all</span>, <span class="va">nct_id</span>, <span class="va">last_update_submitted_qc_date</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Perform the inner join with d</span></span>
+<span><span class="va">d_longitudinal</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">inner_join</a></span><span class="op">(</span><span class="va">d</span>, <span class="va">studies_all_selected</span>, by <span class="op">=</span> <span class="st">"nct_id"</span><span class="op">)</span></span></code></pre></div>
+<p>Here, we select the necessary columns from ‘studies_all’,
+specifically ‘nct_id’ and ‘last_update_submitted_qc_date’. Note that
+‘last_update_submitted_qc_date’ contains the date when the last update
+or modification to a clinical trial’s data or documentation was
+submitted for quality control (QC) review or assessment. It signifies a
+crucial timestamp in the clinical trial management process, indicating
+when the trial’s records were last revised and prepared for quality
+assurance checks. We then perform an inner join with another dataset
+‘d’. We aim to merge relevant data from both datasets based on the
+‘nct_id’, which is the unique identifier for each clinical trial. Now we
+will get time information for each study.</p>
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">any_na_in_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/any.html" class="external-link">any</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">d_longitudinal</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">any_na_in_data</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] FALSE</span></span></code></pre></div>
+<p>We then check for missing values in our merged dataset,
+‘d_longitudinal’. The above code checks for any NA (Not Available)
+values in the dataset.</p>
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">d_longitudinal</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 12,314 × 97</span></span></span>
+<span><span class="co">#&gt;    nct_id p_value number_of_facilities actual_duration nameAlgeria nameArgentina</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> NCT00… -<span style="color: #BB0000;">2.94</span>                      1              59           0             0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> NCT00… -<span style="color: #BB0000;">1.52</span>                      3              80           0             0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> NCT00… -<span style="color: #BB0000;">2.24</span>                      7             118           0             0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> NCT00… -<span style="color: #BB0000;">0.275</span>                     1             133           0             0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> NCT00… -<span style="color: #BB0000;">4.94</span>                      1             163           0             0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> NCT00… -<span style="color: #BB0000;">3.12</span>                      1             107           0             0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> NCT00…  0.090<span style="text-decoration: underline;">5</span>                    1             260           0             0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> NCT00… -<span style="color: #BB0000;">3.50</span>                     14             220           0             0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> NCT00… -<span style="color: #BB0000;">3.70</span>                      1              65           0             0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> NCT00… -<span style="color: #BB0000;">1.13</span>                      1             110           0             0</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 12,304 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 91 more variables: nameAustralia &lt;dbl&gt;, nameAustria &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   nameBangladesh &lt;dbl&gt;, nameBelarus &lt;dbl&gt;, nameBelgium &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   `nameBosnia and Herzegovina` &lt;dbl&gt;, nameBotswana &lt;dbl&gt;, nameBrazil &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   nameBulgaria &lt;dbl&gt;, nameCanada &lt;dbl&gt;, nameChile &lt;dbl&gt;, nameChina &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   nameColombia &lt;dbl&gt;, `nameCosta Rica` &lt;dbl&gt;, nameCroatia &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   nameCyprus &lt;dbl&gt;, `nameCzech Republic` &lt;dbl&gt;, nameCzechia &lt;dbl&gt;, …</span></span></span></code></pre></div>
+<p>The final step in our data preparation involves recovering the
+p_value column to the original value without any transformation. We
+apply a mathematical transformation to the p-values, converting them
+into their original scale. This step is crucial for making our
+subsequent statistical analysis more interpretable and meaningful.</p>
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">d_longitudinal</span> <span class="op">&lt;-</span> <span class="va">d_longitudinal</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>original_p_value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="va">p_value</span><span class="op">)</span> <span class="op">/</span> <span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="va">p_value</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>In our analysis, we first converted ‘last_update_submitted_qc_date’
+into a datetime format, essential for accurate time-series examination.
+Following this, we plotted the ‘original_p_value’ against time to
+visually identify any significant trends. Our approach involved using a
+linear regression model, with time as our independent variable and
+‘original_p_value’ as the dependent one.</p>
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Convert dates to numerical values</span></span>
+<span><span class="va">d_longitudinal</span><span class="op">$</span><span class="va">last_update_submitted_qc_date</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/zoo/man/yearmon.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="va">d_longitudinal</span><span class="op">$</span><span class="va">last_update_submitted_qc_date</span><span class="op">)</span></span>
+<span><span class="va">d_longitudinal</span><span class="op">$</span><span class="va">days_since_first</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">d_longitudinal</span><span class="op">$</span><span class="va">last_update_submitted_qc_date</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">d_longitudinal</span><span class="op">$</span><span class="va">last_update_submitted_qc_date</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Fit linear model</span></span>
+<span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">original_p_value</span> <span class="op">~</span> <span class="va">days_since_first</span>, data <span class="op">=</span> <span class="va">d_longitudinal</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Summary of the model</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Call:</span></span>
+<span><span class="co">#&gt; lm(formula = original_p_value ~ days_since_first, data = d_longitudinal)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Residuals:</span></span>
+<span><span class="co">#&gt;     Min      1Q  Median      3Q     Max </span></span>
+<span><span class="co">#&gt; -0.2475 -0.1942 -0.1274  0.1478  0.8274 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Coefficients:</span></span>
+<span><span class="co">#&gt;                   Estimate Std. Error t value Pr(&gt;|t|)    </span></span>
+<span><span class="co">#&gt; (Intercept)      1.643e-01  7.151e-03  22.972  &lt; 2e-16 ***</span></span>
+<span><span class="co">#&gt; days_since_first 1.528e-05  1.893e-06   8.072 7.55e-16 ***</span></span>
+<span><span class="co">#&gt; ---</span></span>
+<span><span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Residual standard error: 0.2579 on 12312 degrees of freedom</span></span>
+<span><span class="co">#&gt; Multiple R-squared:  0.005264,   Adjusted R-squared:  0.005184 </span></span>
+<span><span class="co">#&gt; F-statistic: 65.16 on 1 and 12312 DF,  p-value: 7.554e-16</span></span>
+<span></span>
+<span><span class="co"># To plot the original_p_value over time</span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">d_longitudinal</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">last_update_submitted_qc_date</span>, y <span class="op">=</span> <span class="va">original_p_value</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"Original P-Value"</span><span class="op">)</span>, size <span class="op">=</span> <span class="fl">2</span>, alpha <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html" class="external-link">geom_smooth</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"lm"</span>, formula <span class="op">=</span> <span class="va">y</span> <span class="op">~</span> <span class="va">x</span>, color <span class="op">=</span> <span class="st">"red"</span>, se <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Date"</span>, y <span class="op">=</span> <span class="st">"Original P-Value"</span>,</span>
+<span>       title <span class="op">=</span> <span class="st">"Original P-Value Over Time"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_color_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Original P-Value"</span> <span class="op">=</span> <span class="st">"blue"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p><img src="research-significance-analysis_files/figure-html/unnamed-chunk-32-1.png" width="700"></p>
+<p>This model revealed a small yet statistically significant trend: a
+gradual increase in the ‘original_p_value’ over time. It’s important to
+note that the increase is modest, largely due to the inherently small
+size of the p-value. The exceptionally low p-value for the slope,
+significantly under <span class="math inline">\(0.05\)</span>, validates
+the trend’s statistical significance. However, the low coefficient of
+determination suggests that time only explains a minor part of the
+variance in the ‘original_p_value’. In summary, our analysis indicates a
+discernible, though minor, upward trend in the ‘original_p_value’ over
+time. This trend, while statistically valid, contributes to only a small
+portion of the observed changes in our dataset.</p>
+<p>This gradual increase in the ‘original_p_value’ over time suggests
+that the studies we from 2010 to 2022 are showing a trend towards less
+statistically significant results as time progresses. This could imply a
+range of possibilities, such as changes in research methodology,
+variations in study quality, or shifts in the underlying phenomena being
+studied. It’s a crucial insight for researchers and policy makers, as it
+highlights the need for a closer examination of why these changes are
+occurring. Understanding this trend could lead to more robust research
+practices and better-informed decision-making in the future.</p>
+<p>Then we plot the decomposed components of our time series data,
+several insights emerge, further enhancing our understanding of the
+‘original_p_value’ trends over time.</p>
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">d_longitudinal</span><span class="op">$</span><span class="va">last_update_submitted_qc_date</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://lubridate.tidyverse.org/reference/ymd.html" class="external-link">ymd</a></span><span class="op">(</span><span class="va">d_longitudinal</span><span class="op">$</span><span class="va">last_update_submitted_qc_date</span><span class="op">)</span></span>
+<span><span class="va">d_longitudinal</span> <span class="op">&lt;-</span> <span class="va">d_longitudinal</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="va">last_update_submitted_qc_date</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Group data by month and calculate the mean of 'original_p_value'</span></span>
+<span><span class="va">monthly_data</span> <span class="op">&lt;-</span> <span class="va">d_longitudinal</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span>month <span class="op">=</span> <span class="fu"><a href="https://lubridate.tidyverse.org/reference/round_date.html" class="external-link">floor_date</a></span><span class="op">(</span><span class="va">last_update_submitted_qc_date</span>, <span class="st">"month"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize</a></span><span class="op">(</span>original_p_value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">original_p_value</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Convert to xts for decomposition</span></span>
+<span><span class="va">ts_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html" class="external-link">ts</a></span><span class="op">(</span><span class="va">monthly_data</span><span class="op">$</span><span class="va">original_p_value</span>, frequency <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Decompose the time series (additive model)</span></span>
+<span><span class="va">decomposed_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/decompose.html" class="external-link">decompose</a></span><span class="op">(</span><span class="va">ts_data</span>, type <span class="op">=</span> <span class="st">"additive"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Plot the decomposed components</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">decomposed_data</span><span class="op">)</span></span></code></pre></div>
+<p><img src="research-significance-analysis_files/figure-html/unnamed-chunk-33-1.png" width="576"></p>
+<p><strong>Trend Component Analysis</strong>: The trend component of the
+graph, which represents the long-term movement in the
+‘original_p_value’, shows a small positive slope. This reinforces our
+earlier findings of a gradual increase in the p-value over time. The
+consistent yet modest upward trend in the p-values suggests a decrease
+in the statistical significance of the studies over the examined period.
+This could be indicative of evolving research dynamics, such as changes
+in research methodologies or variations in the domains being
+studied.</p>
+<p><strong>Seasonal Component Insights</strong>: The seasonal component
+of the data reveals calendar-related fluctuations in the p-values. The
+volatility observed here is particularly intriguing. It suggests that
+there are specific times of the year when the studies tend to yield
+results with varying levels of significance. This could be due to a
+variety of factors, including cyclical research funding, academic
+calendars, or even seasonal variations in the phenomena being
+studied.</p>
+<p><strong>Random Component (Noise) Considerations</strong>: The random
+component, which shows the residual fluctuations after accounting for
+trend and seasonal effects, appears erratic. This erratic nature
+indicates that there are additional factors influencing the p-values
+that our model has not accounted for. These could range from unforeseen
+external events impacting research outcomes to inherent randomness in
+the data collection processes.</p>
+</div>
 </div>
 <div class="section level2">
 <h2 id="interpretation-and-conclusions">Interpretation and Conclusions<a class="anchor" aria-label="anchor" href="#interpretation-and-conclusions"></a>
@@ -1054,6 +1276,27 @@ Thus there is not much significant relations between the significance of
 the outcomes of clinical trials and countries that the trials are
 conducted. But there is relations between the significance of the
 outcomes and the number of facility involved.</p>
+<p>In addition to our primary findings, our time series analysis using a
+linear regression model unveiled a noteworthy trend: a gradual increase
+in ‘original_p_value’ over time. This trend, while statistically
+significant with a p-value for the slope below 0.05, displayed a
+relatively modest effect size, as indicated by the low coefficient of
+determination. This observed trend implies several potential
+contributing factors, including shifts in research methodologies,
+variations in study quality, or changes in the phenomena under
+examination. These findings emphasize the importance of conducting
+further investigations to delve into the underlying causes, providing
+valuable insights for both researchers and policymakers. Furthermore,
+when we dissected the time series data, we gained additional insights.
+The trend component consistently exhibited a slight positive slope,
+reinforcing the notion of diminishing statistical significance over
+time. The seasonal component highlighted fluctuations in p-values linked
+to specific times of the year, potentially influenced by factors like
+research funding cycles, academic calendars, or seasonal variations in
+the phenomena being studied. Lastly, the random component pointed to
+erratic fluctuations, suggesting the presence of unaccounted factors
+impacting p-values, ranging from unforeseen external events to inherent
+variability in data collection practices.</p>
 </div>
   </div>
 
